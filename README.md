@@ -554,12 +554,9 @@ make release VERSION=1.0.0   # dist/에 4개 플랫폼 바이너리. VERSION이 
 
 ## 만든 방식
 
-코드와 문서는 Anthropic의 AI 코딩 도구 [Claude Code](https://claude.com/claude-code)와
-함께 작성했다. 무엇을 만들지 정하고, 결과를 실물로 돌려 쓸 만한지 판정하는
-것은 만든 사람이 했다.
+코드와 문서는 Anthropic의 Claude Code와 함께 작성했다.
 
-작업 중에 남긴 설계 기록과 세션 기록은 공개하지 않는다. 코드 주석에 나오는
-「원장」은 그 기록을 가리킨다.
+코드 주석에 나오는 「원장」은 설계 작업과 세션 기록을 의미한다.
 
 ## 이슈와 기여
 
