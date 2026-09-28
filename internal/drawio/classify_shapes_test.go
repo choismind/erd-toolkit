@@ -28,7 +28,7 @@ func TestClassifyShape(t *testing.T) {
 }
 
 func TestShapeName(t *testing.T) {
-	// M11: IgnoredShape.Shape / ShapeViolation.Shape에 style 문자열 전체가
+	// IgnoredShape.Shape / ShapeViolation.Shape에 style 문자열 전체가
 	// 그대로 들어가 IR과 검증 리포트에 노출됐다. 도형 이름만 담아야 한다.
 	cases := []struct{ style, want string }{
 		{"shape=note;whiteSpace=wrap;html=1;", "note"},

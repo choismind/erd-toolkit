@@ -33,7 +33,7 @@ func (sqliteDialect) Tables(ctx context.Context, db *sql.DB, _ string) ([]Table,
 }
 
 // sqliteTableNames는 사용자 테이블 이름을 모은다. sqlite_로 시작하는
-// 내부 테이블은 뺀다(스펙 "제외 대상").
+// 내부 테이블은 뺀다(원장 "제외 대상").
 func sqliteTableNames(ctx context.Context, db *sql.DB) ([]string, error) {
 	rows, err := db.QueryContext(ctx,
 		`SELECT name FROM sqlite_master

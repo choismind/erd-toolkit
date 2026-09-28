@@ -73,7 +73,7 @@ func Generate(path string, cfg config.Config) (Result, error) {
 		return Result{}, err
 	}
 
-	// 테이블정의서는 스펙상 필수 산출물이며 MD/HTML/PDF/xlsx 네 포맷 전부를
+	// 테이블정의서는 원장에서 필수 산출물이며 MD/HTML/PDF/xlsx 네 포맷 전부를
 	// 항상 생성한다(관계정의서/SQL DDL만 옵션).
 	if err := os.WriteFile(filepath.Join(outDir, "table_doc.md"),
 		[]byte(report.TableDocMarkdown(doc, opt)), 0o644); err != nil {
@@ -130,14 +130,14 @@ func Generate(path string, cfg config.Config) (Result, error) {
 }
 
 // GenerateFolder는 디렉터리 안의 *.drawio 전체를 처리한다. 파일 하나의
-// 실패가 나머지를 막지 않는다(스펙: 폴더 배치 처리의 파일 단위 에러 격리).
+// 실패가 나머지를 막지 않는다(원장: 폴더 배치 처리의 파일 단위 에러 격리).
 //
-// 확장자 비교는 대소문자를 구분하지 않는다(M12). filepath.Glob("*.drawio")는
+// 확장자 비교는 대소문자를 구분하지 않는다. filepath.Glob("*.drawio")는
 // 패턴 매칭이 대소문자를 구분해서, Linux/macOS에서 ".DRAWIO"로 저장된 파일이
 // 에러도 경고도 없이 통째로 건너뛰어졌다 — 사용자 입장에서는 산출물만 안
 // 나오고 이유를 알 길이 없다.
 //
-// 하위 폴더는 cfg.Recursive일 때만 들어간다(I9, 기본 꺼짐).
+// 하위 폴더는 cfg.Recursive일 때만 들어간다(기본 꺼짐).
 func GenerateFolder(dir string, cfg config.Config) ([]FileResult, error) {
 	paths, err := findDrawioFiles(dir, cfg.Recursive)
 	if err != nil {

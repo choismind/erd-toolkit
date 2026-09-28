@@ -48,7 +48,7 @@ func deflateBase64(t *testing.T, s string) string {
 }
 
 func TestDecompress_PreservesLiteralPlus(t *testing.T) {
-	// M8: url.QueryUnescape는 "+"를 스페이스로 바꾼다. draw.io가 URL 인코딩
+	// url.QueryUnescape는 "+"를 스페이스로 바꾼다. draw.io가 URL 인코딩
 	// 단계를 생략한 페이로드(도형구성정보.md: 선택적 단계)에 리터럴 "+"가
 	// 들어 있으면 값이 조용히 손상된다 — 에러가 안 나므로 기존 폴백 분기도
 	// 타지 않는다. 스페이스 치환은 쿼리스트링에서만 유효한 규칙이라

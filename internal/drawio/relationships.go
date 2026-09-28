@@ -19,7 +19,7 @@ type resolvedEnd struct {
 // resolveEnd는 관계선의 source/target id가 가리키는 대상을 찾는다.
 //  1. 그 id가 어떤 테이블의 tableRow(행)라면 -> 그 행이 속한 테이블 +
 //     해당 행에 대응하는 컬럼(정의 셀)을 반환한다.
-//  2. 그 id가 테이블 자체라면 -> 컬럼 없이 테이블만 반환한다(스펙:
+//  2. 그 id가 테이블 자체라면 -> 컬럼 없이 테이블만 반환한다(원장:
 //     "관계선이 행이 아니라 테이블에 직접 연결된 경우").
 //  3. 어느 쪽도 아니면 found=false. 이때 id가 idx.ByID에 실존하는 셀을
 //     가리키고 있었다면(그저 tableRow로 인식되지 않았거나 parent 테이블을
@@ -54,7 +54,7 @@ func resolveEnd(id string, idx CellIndex, tables []RawCell) resolvedEnd {
 // ExtractRelationships는 edgeStyle=entityRelationEdgeStyle 엣지를 찾아
 // source/target을 해석한다. 매칭 실패 시 이전 관계의 값을 재사용하거나
 // 초기화되지 않은 값을 쓰지 않는다 — 매 관계마다 완전히 새 값으로 계산한다
-// (원본 gen_tablespec.py의 UnboundLocalError/조용한 오염 버그의 원인).
+// (이전 구현의 UnboundLocalError/조용한 오염 버그의 원인).
 //
 // source/target 속성이 둘 다 아예 없는 엣지(예: draw.io ER 도형 라이브러리
 // 참고 페이지의 장식용 화살표 — 아무 것에도 연결된 적이 없다)만 완전히

@@ -64,7 +64,7 @@ func TestPostgresDialect_ReadsCatalog(t *testing.T) {
 	if orders == nil {
 		t.Fatal("orders를 못 찾았다")
 	}
-	// 이 두 줄이 Task 1이 존재하는 이유다.
+	// 이 두 줄이 작업 1이 존재하는 이유다.
 	if got := orders.Columns[2].Type; got != "timestamp with time zone" {
 		t.Errorf("created_at 타입 = %q; want timestamp with time zone", got)
 	}

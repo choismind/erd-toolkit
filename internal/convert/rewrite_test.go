@@ -324,7 +324,7 @@ func TestRewritePlanReplacesStyleOnPlainCell(t *testing.T) {
 		t.Errorf("strokeColor=%q; \"#FF0000\"이어야 한다 (style=%q)", got, idx.ByID["t1"].Style)
 	}
 	// Style만 있고 Label도 Attrs도 없으면 <object>로 감싸지 않아야 한다
-	// (Task 13의 --clean이 원본 바이트를 복원해야 하므로, 불필요한 래퍼가
+	// (작업 13의 --clean이 원본 바이트를 복원해야 하므로, 불필요한 래퍼가
 	// 생기면 안 된다). 파서는 감싼 것과 안 감싼 것을 같은 인덱스 셀로
 	// 평탄화하므로, 위 strokeColor 검사만으로는 이 불변식이 지켜지는지
 	// 알 수 없다 — 출력 바이트를 직접 봐야 한다.
@@ -782,7 +782,7 @@ func TestRewritePlanDeleteDoesNotLeakWrapperIDToUnrelatedSibling(t *testing.T) {
 }
 
 // TestRewritePlanDeleteThenReinsertSameID는 같은 회차 안에서 어떤 id를
-// 지우면서 동시에 같은 id로 새 셀을 넣는 시나리오를 본다. Task 12가
+// 지우면서 동시에 같은 id로 새 셀을 넣는 시나리오를 본다. 작업 12가
 // «요약 박스를 지우고 다시 넣는다»를 이 방식으로 구현할 예정이라, 삭제는
 // 옛 요소를 스트림에서 지나칠 때 일어나고 삽입은 </root>에서 일어나는
 // 두 메커니즘이 부딪히지 않고 정확히 한 개의 셀만 남기는지가 멱등성
@@ -887,17 +887,17 @@ func TestRewriteMxFile_EditsUserObject(t *testing.T) {
 	}
 }
 
-// --- Task 12 코드리뷰 라운드 1: 벗기기(unwrap) 전용 테스트 -------------
+// --- 작업 12 코드리뷰 라운드 1: 벗기기(unwrap) 전용 테스트 -------------
 //
 // 벗기기는 annotate 전용이 아니라 convert의 재작성 엔진(rewriteStart)
-// 자체가 갖는 기능이므로, 계획상 Task 13 몫이던 것을 Task 12가 자기
+// 자체가 갖는 기능이므로, 계획상 작업 13 몫이던 것을 작업 12가 자기
 // 계약(진단이 사라지면 마크·래퍼가 남지 않는다) 때문에 앞당겨 만들었다.
 // annotate의 테스트는 findings/BuildPlans/ScanExisting을 거쳐야 이
-// 기능에 닿으므로 여기서 벌어지는 구조적 결함([C1] id/value 중복,
-// [I1] 없던 value 속성이 생김, [I2] 남의 래퍼를 구조만 보고 벗김)을
+// 기능에 닿으므로 여기서 벌어지는 구조적 결함(id/value 중복,
+// 없던 value 속성이 생김, 남의 래퍼를 구조만 보고 벗김)을
 // 못 본다. 그래서 CellEdit.Unwrap을 직접 조립해 이 파일에서 부순다.
 
-// [C1] 안쪽 mxCell이 이미 자기 id/value를 갖고 있는 드문 모양
+// 안쪽 mxCell이 이미 자기 id/value를 갖고 있는 드문 모양
 // (<object id="t1"><mxCell id="t1" value="주문" …>)을 벗기면, 먼저
 // 지우지 않고 앞에 새로 붙이면 id/value가 두 번 나온다 — XML 1.0
 // Unique Attribute Spec 위반이라 draw.io의 DOMParser가 거부하는데, Go의
@@ -942,7 +942,7 @@ func TestRewriteCellsPlanUnwrapDoesNotDuplicateIDAndValue(t *testing.T) {
 	}
 }
 
-// [I1] value 속성이 원래 없던 셀(행·간선처럼)을 감쌌다가 벗기면, value=""를
+// value 속성이 원래 없던 셀(행·간선처럼)을 감쌌다가 벗기면, value=""를
 // 새로 만들어 붙이면 안 된다 — 그 셀은 원래 value 속성 자체가 없었다.
 // «없었다»는 래퍼에 label 속성 자체가 없는 것으로 표현한다(아래
 // TestRewriteCellsPlanUnwrapKeepsExplicitEmptyValue의 label="" 과
@@ -975,7 +975,7 @@ func TestRewriteCellsPlanUnwrapOmitsValueWhenLabelAbsent(t *testing.T) {
 	}
 }
 
-// [I1 재발, 코드리뷰 라운드 2] value="" 를 원래부터 갖고 있던 셀(값이
+// [코드리뷰 라운드 2에서 다시 나온 결함] value="" 를 원래부터 갖고 있던 셀(값이
 // 빈 것과 속성이 없는 것은 다른 사실이다 — 이 저장소의
 // fixtureWithMissingPK의 r1k가 실제로 이 모양이다)을 감쌌다가 벗기면,
 // value="" 속성이 그대로 살아 있어야 한다. "값이 비었으니 안 낸다"로
@@ -1009,7 +1009,7 @@ func TestRewriteCellsPlanUnwrapKeepsExplicitEmptyValue(t *testing.T) {
 	}
 }
 
-// [I2 관련 게이트] 구조만(label·id만 남음) 보고 벗기던 옛 방식은 사용자가
+// [게이트] 구조만(label·id만 남음) 보고 벗기던 옛 방식은 사용자가
 // 원래부터 label·id만 가진 빈 래퍼를 쓰고 있었을 때도 똑같이 벗겼다.
 // CellEdit.Unwrap을 세우지 않으면 — 즉 호출자가 "이건 내 래퍼다"라고
 // 확언하지 않으면 — 구조가 아무리 비어 보여도 절대 안 벗긴다는 것을
@@ -1036,7 +1036,7 @@ func TestRewriteCellsPlanUnwrapRequiresOptIn(t *testing.T) {
 	}
 }
 
-// [I2] Unwrap을 세워도, 편집을 다 적용한 뒤 label·id 말고 다른 속성
+// Unwrap을 세워도, 편집을 다 적용한 뒤 label·id 말고 다른 속성
 // (logicalName처럼 이 편집이 모르는 속성)이 남아 있으면 절대 벗기지
 // 않는다 — 호출자의 "이건 내 래퍼다" 판단이 틀렸을 때의 마지막 방어선이다.
 func TestRewriteCellsPlanUnwrapRefusesWhenOtherAttrsRemain(t *testing.T) {
@@ -1067,7 +1067,7 @@ func TestRewriteCellsPlanUnwrapRefusesWhenOtherAttrsRemain(t *testing.T) {
 	}
 }
 
-// [I3, 다운그레이드] 벗기기는 원래 순서를 저장해 두지 않으므로 draw.io의
+// [다운그레이드] 벗기기는 원래 순서를 저장해 두지 않으므로 draw.io의
 // 관례(id, value, style, ...)를 벗어난 입력에서는 속성 "순서"가 원본과
 // 달라질 수 있다 — 이건 의도적으로 안 고친 한계다(encodeUnwrappedCellStart
 // 주석 참고). 이 테스트는 순서가 아니라 "집합과 값"만 못박는다: style이
@@ -1351,7 +1351,7 @@ func TestEmptyCellEditIsANoOp(t *testing.T) {
 // 들어간다. 옛 구현은 p.Inserts[diagramID]로 «맵 조회»를 해서 겹친 두
 // 페이지가 **둘 다** 같은 삽입을 받았다 — 둘 다 틀렸지만 둘 다 뭔가는
 // 받았고, 그것이 이월 minor 목록의 «id가 같은 diagram 둘이면 양쪽 다
-// inserts를 받는다»였다. 페이지 단위화(e48731d)가 Pages[i] 첨자 조회로
+// inserts를 받는다»였다. 페이지 단위화가 Pages[i] 첨자 조회로
 // 바꾸면서 그 항목은 무효가 됐고, 여기서 그 사실을 못박는다.
 //
 // (한 페이지가 아무것도 못 받는 것 자체는 이 층위에서 고칠 문제가 아니다.
@@ -1393,7 +1393,7 @@ func TestRewriteMxFilePlanInsertsByIndexNotByDuplicateID(t *testing.T) {
 	}
 }
 
-// rewriteCells / rewriteMxFile은 페이지 단위화(e48731d) 이전의 옛 API를
+// rewriteCells / rewriteMxFile은 페이지 단위화 이전의 옛 API를
 // **테스트 안에서만** 되살린 것이다. 예전에는 같은 이름의 공개 함수가
 // 있었는데, 생산 코드의 마지막 호출부가 그때 사라졌는데도 남아 있었다 —
 // 「파일 전체에 한 벌의 편집을 적용한다」는 뜻은 페이지 단위화가 일부러

@@ -34,7 +34,7 @@ type DuplicateNameWarning struct {
 
 // Assemble은 파일 하나를 파싱해 model.Document로 조립한다. 테이블 식별은
 // (페이지, 셀 ID) 기준이며, 동일 이름 테이블이 여러 페이지에 있어도 자동
-// 병합하지 않고 DuplicateNameWarning으로만 보고한다(스펙: 다중 페이지 처리).
+// 병합하지 않고 DuplicateNameWarning으로만 보고한다(원장: 다중 페이지 처리).
 //
 // 설정(config.Config)을 받지 않는다. 예전에는 페이지 성격 판정이 여기에
 // 있어 페이지별 오버라이드를 봐야 했지만 그 판정 자체가 없어졌다

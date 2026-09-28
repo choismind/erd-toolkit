@@ -25,11 +25,11 @@ type Cardinality struct {
 // "Many Mandatory"/"Many" — 즉 「부모에게 자식이 반드시 하나 이상 있다」는
 // 주장인데, 표준 SQL에는 그 사실을 선언할 문법이 없다. FK도 NOT NULL도
 // UNIQUE도 CHECK도 그것을 강제하지 못한다(실측: NOT NULL FK를 걸고도
-// 자식이 0건인 부모가 정상 존재한다 — 스펙 "카디널리티" 절).
+// 자식이 0건인 부모가 정상 존재한다 — 원장 "카디널리티" 절).
 // 데이터를 세어 판단하지도 않는다 — 지금 데이터에 없다는 것이 앞으로도
 // 없어야 한다는 뜻이 아니다.
 //
-// 이 규칙은 스펙에서 확정됐다(2026-08-27). 다만 되돌리는 비용을 낮추려고
+// 이 규칙은 원장에서 확정됐다(2026-08-27). 다만 되돌리는 비용을 낮추려고
 // 이 파일 하나에 가둬 뒀다 — 바꾸기로 하면 여기만 고치면 전체가 뒤집힌다.
 func DecideCardinality(fkNotNull, fkUnique bool) Cardinality {
 	c := Cardinality{Parent: "ERzeroToOne", Child: "ERzeroToMany"}

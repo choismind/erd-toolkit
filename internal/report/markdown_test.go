@@ -40,7 +40,7 @@ func TestTableDocMarkdown(t *testing.T) {
 }
 
 func TestTableDocMarkdown_PageAsDomain(t *testing.T) {
-	// 스펙 "다중 페이지 처리": page_as_domain 옵션이 켜지면 테이블정의서에
+	// 원장 "다중 페이지 처리": page_as_domain 옵션이 켜지면 테이블정의서에
 	// 페이지명을 도메인 컬럼으로 노출한다.
 	md := TableDocMarkdown(sampleDoc(), Options{PageAsDomain: true})
 	if !strings.Contains(md, "도메인") || !strings.Contains(md, "페이지-1") {
@@ -155,7 +155,7 @@ func relationDoc() model.Document {
 }
 
 func TestRelationDocMarkdown_UsesTableAndColumnNames(t *testing.T) {
-	// M4: 원시 셀 ID(t1/c2)가 아니라 테이블명/컬럼명이 나와야 한다.
+	// 원시 셀 ID(t1/c2)가 아니라 테이블명/컬럼명이 나와야 한다.
 	md := RelationDocMarkdown(relationDoc())
 	for _, want := range []string{"Orders", "Customers", "customer_id"} {
 		if !strings.Contains(md, want) {

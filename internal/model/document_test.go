@@ -45,7 +45,7 @@ func TestDocumentJSONShape(t *testing.T) {
 }
 
 func TestColumnIsPrimaryKey(t *testing.T) {
-	// M1: PK 판정이 tables.go/required.go/sql.go 3곳에 흩어져 있었고 대소문자
+	// PK 판정이 tables.go/required.go/sql.go 3곳에 흩어져 있었고 대소문자
 	// 처리가 서로 달랐다(isKeyLike만 대소문자 무시). 단일 진입점으로 통합한다.
 	cases := []struct {
 		key  string

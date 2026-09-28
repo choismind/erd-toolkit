@@ -8,7 +8,7 @@ import (
 )
 
 func TestSQLDDL(t *testing.T) {
-	// 식별자는 항상 quote한다(M10) — ERD 이름은 사람이 draw.io에서 자유
+	// 식별자는 항상 quote한다 — ERD 이름은 사람이 draw.io에서 자유
 	// 입력한 값이라 quote 없이는 한글/공백/예약어에서 깨진다.
 	ddl := SQLDDL(sampleDoc(), Options{})
 	if !strings.Contains(ddl, `CREATE TABLE "Orders"`) {
@@ -23,7 +23,7 @@ func TestSQLDDL(t *testing.T) {
 }
 
 func TestSQLDDL_LowercasePKEmitsPrimaryKey(t *testing.T) {
-	// M1: 키 셀이 소문자 "pk"여도 PRIMARY KEY 절이 나와야 한다. 검증
+	// 키 셀이 소문자 "pk"여도 PRIMARY KEY 절이 나와야 한다. 검증
 	// 리포트와 DDL이 서로 다른 PK 판정을 쓰면 두 산출물이 모순된다.
 	doc := model.Document{Diagrams: []model.Diagram{{
 		Name: "p1",
@@ -39,7 +39,7 @@ func TestSQLDDL_LowercasePKEmitsPrimaryKey(t *testing.T) {
 }
 
 func TestSQLDDL_QuotesIdentifiers(t *testing.T) {
-	// M10: 식별자를 quote하지 않아 한글/공백이 든 이름이면 깨진 DDL이 나왔다.
+	// 식별자를 quote하지 않아 한글/공백이 든 이름이면 깨진 DDL이 나왔다.
 	doc := model.Document{Diagrams: []model.Diagram{{
 		Name: "p1",
 		Tables: []model.Table{{
@@ -74,7 +74,7 @@ func TestSQLDDL_EscapesEmbeddedQuote(t *testing.T) {
 }
 
 func TestSQLDDL_MarksMissingTypeInsteadOfEmittingBlank(t *testing.T) {
-	// M10: Type이 빈 컬럼은 지금까지 `  name ` 처럼 타입 자리를 빈 칸으로
+	// Type이 빈 컬럼은 지금까지 `  name ` 처럼 타입 자리를 빈 칸으로
 	// 남긴 채 나갔다 — 조용히 깨진 DDL이다. 타입을 추측해 채우지 않고
 	// (이 프로젝트의 "플레이스홀더로 대체하지 않는다" 원칙) 눈에 띄는
 	// 주석으로 표시해 실행 시 그 줄에서 바로 걸리게 한다.

@@ -33,7 +33,7 @@ const fixtureWithMissingPK = `<mxfile><diagram name="주문" id="pg1"><mxGraphMo
   </mxCell>
 </root></mxGraphModel></diagram></mxfile>`
 
-// fixtureLonelyTable은 행이 하나도 없는 테이블 하나짜리 페이지다(Task 16
+// fixtureLonelyTable은 행이 하나도 없는 테이블 하나짜리 페이지다(작업 16
 // 리뷰 라운드 1). fixtureWithMissingPK로는 페이지 레벨 뒤집힘을 검증할 수
 // 없다 — 그 픽스처는 Parsed 셀이 4개(t1·r1·r1k·r1d)인데 annotate가 한 번의
 // 실행에서 실제로 손대는 셀은 진단 대상 t1과 새로 넣는 요약 박스 1개뿐이라,
@@ -141,7 +141,7 @@ func TestAnnotateWritesNothingWhenNoFindings(t *testing.T) {
 // 요소(<mxCell id="0"/>)와 여닫는 쌍(<mxCell id="0"></mxCell>)을 토큰
 // 스트림에서 구별하지 못하므로, "원본 바이트 자체로 돌아온다"는 이
 // 인코더로는 애초에 닿을 수 없는 목표였다(그것을 정규식/스캐너로 억지로
-// 되돌리려던 첫 시도가 [C1][I1][I2] 결함을 냈다). annotate가 실제로
+// 되돌리려던 첫 시도가 결함을 냈다). annotate가 실제로
 // 지켜야 하는 것은 "자기 표식을 하나도 안 남기고, 그 밖의 무엇도 안
 // 바꾼다"이고, 그 기준선은 convert 자신이 이미 쓰고 있는 정규화 형태다.
 func TestAnnotateRemovesStaleMarksWhenFixed(t *testing.T) {
@@ -193,7 +193,7 @@ func TestAnnotateRemovesStaleMarksWhenFixed(t *testing.T) {
 // value=""를 갖고 있는 흔한 draw.io 모양 — 이름 없는 테이블 —에서도
 // 계약 2가 성립하는지 본다. fixtureWithMissingPK와 거의 같지만 t1의
 // value를 "주문"에서 ""로 바꿨을 뿐이다(이름이 없어도 PK 없음 진단은
-// 그대로 나온다). 라운드 1의 [I1] 첫 고침("hasLabel && label != \"\""로
+// 그대로 나온다). 라운드 1의 첫 고침("hasLabel && label != \"\""로
 // «값 있음»을 판정)은 이 케이스에서 value="" 속성 자체를 지워버려
 // 계약 2를 깼다 — "값이 비었다"와 "속성이 없다"는 다른 사실이라는 것을
 // 이 테스트가 실제 Annotate 왕복으로 못박는다.
@@ -279,7 +279,7 @@ func TestAnnotatePreservesBaseStyleAcrossRuns(t *testing.T) {
 // 계약 4: erdtool 표식이 없는 남의 것은 절대 안 건드린다. 기존 테스트는
 // fixtureClean(진단 0건)으로 이걸 확인했는데, 그 경로는 계약 3(진단
 // 0건이면 무변화)과 검증 대상이 완전히 같다 — findings가 처음부터
-// 0건이면 마킹도, 되돌리기도, 벗기기도 전혀 일어나지 않으므로 [I2](남의
+// 0건이면 마킹도, 되돌리기도, 벗기기도 전혀 일어나지 않으므로(남의
 // <object> 래퍼를 구조만 보고 벗겨버리는 결함)를 이 테스트는 절대 못
 // 잡는다. 진짜로 필요한 것은 "마크되는 셀"이 "이미 사용자의 다른 이유로
 // <object>에 감싸여 있을 때" 마크→해제 한 바퀴를 도는 시나리오다.
@@ -397,10 +397,10 @@ func TestAnnotateSkipsFindingWithCellIDNotInFile(t *testing.T) {
 	}
 }
 
-// Task 13 — Clean.
+// 작업 13 — Clean.
 //
 // 계약: Clean(Annotate(x)) == convert.RewriteMxFilePlan(x, RewritePlan{})
-// («원본 그대로»가 아니라 「그 파일 자신의 정규화 왕복형」이다 — 스펙
+// («원본 그대로»가 아니라 「그 파일 자신의 정규화 왕복형」이다 — 원장
 // "멱등성·안전 계약" 절, encoding/xml이 self-closing 태그를 못 구별하는
 // 것이 이유다). 기대값은 항상 그 자리에서 convert.RewriteMxFilePlan을 직접
 // 돌려 계산한다 — 손으로 적은 문자열과 비교하면 그 문자열 자체가 언젠가
@@ -424,7 +424,7 @@ func TestCleanRestoresNormalizedRoundtrip(t *testing.T) {
 	if !rc.Changed || rc.Marked == 0 {
 		t.Errorf("Clean 결과: %+v; 지울 표식이 있었으므로 Changed/Marked가 나야 한다", rc)
 	}
-	// 코드리뷰 [중요 3]: Pages는 지운 요약 박스 수다. fixtureWithMissingPK는
+	// 코드리뷰: Pages는 지운 요약 박스 수다. fixtureWithMissingPK는
 	// 페이지 하나짜리이고 그 페이지에 진단이 있었으므로 요약 박스가
 	// 하나였다 — Clean이 그 하나를 지웠으니 Pages==1이어야 한다.
 	if rc.Pages != 1 {
@@ -507,7 +507,7 @@ func TestCleanIsIdempotent(t *testing.T) {
 // 이 래퍼를 벗기면 안 된다. Annotate(findings=nil)로 되돌리는 경로는
 // TestAnnotateMarkThenClearPreservesForeignWrapperAttrs가 이미 검사하지만,
 // 이 테스트는 Clean 함수 자체를 직접 호출해 같은 계약을 확인한다 — 갈라
-// 두지 않았다는 것 자체가 Task 13의 요구사항이다.
+// 두지 않았다는 것 자체가 작업 13의 요구사항이다.
 func TestCleanPreservesForeignWrapperAttrs(t *testing.T) {
 	src := []byte(`<mxfile><diagram name="주문" id="pg1"><mxGraphModel><root>
   <mxCell id="0"/><mxCell id="1" parent="0"/>
@@ -568,7 +568,7 @@ func TestCleanPreservesForeignWrapperAttrs(t *testing.T) {
 	}
 }
 
-// [I2] 재발 방지. 위 테스트는 사용자 래퍼가 logicalName·tooltip처럼 남는
+// 재발 방지. 위 테스트는 사용자 래퍼가 logicalName·tooltip처럼 남는
 // 속성을 갖고 있어서, convert.onlyLabelAndID(구조만 보는 최후 방어선)
 // 하나만으로도 벗기기가 막힌다 — annotate 쪽의 WrappedByUs 판정이 실제로
 // 하는 일을 이 테스트는 증명하지 못한다.
@@ -581,7 +581,7 @@ func TestCleanPreservesForeignWrapperAttrs(t *testing.T) {
 // annotate가 Unwrap을 세우지 않는 것(WrappedByUs가 false라서)만이 이
 // 래퍼를 지킨다. Unwrap을 여기서 잘못 세우면(예: WrappedByUs 확인을
 // 건너뛰면) 이 래퍼는 사용자가 원래 감싸 둔 것인데도 벗겨져 맨 mxCell로
-// 바뀐다 — 코드리뷰 [I2]가 잡은 바로 그 사고다.
+// 바뀐다 — 코드리뷰가 잡은 바로 그 사고다.
 func TestCleanNeverUnwrapsUserBareWrapperEvenWhenStructurallyEligible(t *testing.T) {
 	src := []byte(`<mxfile><diagram name="주문" id="pg1"><mxGraphModel><root>
   <mxCell id="0"/><mxCell id="1" parent="0"/>
@@ -628,7 +628,7 @@ func TestCleanNeverUnwrapsUserBareWrapperEvenWhenStructurallyEligible(t *testing
 	}
 	e := ePerPage[0]
 	if !e.Wrapped["t1"] {
-		t.Error("사용자가 원래 label·id만으로 감싸 둔 래퍼가 벗겨졌다 — 구조가 우연히 벗기기 조건과 같아졌다고 벗기면 안 된다([I2])")
+		t.Error("사용자가 원래 label·id만으로 감싸 둔 래퍼가 벗겨졌다 — 구조가 우연히 벗기기 조건과 같아졌다고 벗기면 안 된다")
 	}
 	if !strings.Contains(string(cleaned), `<object label="주문" id="t1">`) {
 		t.Errorf("t1의 래퍼 모양이 원래(label, id)와 달라졌다:\n%s", cleaned)
@@ -693,7 +693,7 @@ func TestCleanWorksOnCompressedPage(t *testing.T) {
 	}
 }
 
-// [중요 1] 코드리뷰 수정: existing.Marked(erdtoolIssue)만 보고 "지울 것이
+// 코드리뷰 수정: existing.Marked(erdtoolIssue)만 보고 "지울 것이
 // 있는가"를 판정하면 안 된다. draw.io의 «데이터 편집» 창은 속성을 하나씩
 // 지울 수 있는 일반 UI라서, 사람이 erdtoolIssue만 지우고
 // erdtoolBaseStyle·erdtoolWrapped는 그대로 두는 것이 실제로 가능하다.
@@ -787,7 +787,7 @@ func TestCleanRemovesResidueEvenWithoutErdtoolIssueOnCompressedPage(t *testing.T
 	}
 }
 
-// [중요 2] 코드리뷰 수정: erdtoolBaseStyle이 없는 마크된 셀(사람이
+// 코드리뷰 수정: erdtoolBaseStyle이 없는 마크된 셀(사람이
 // 「데이터 편집」 창에서 erdtoolBaseStyle만 지운 경우)에서 Clean이
 // style=""를 써 넣어 실제 모양을 지워 버리면 안 된다. 저장된 원래
 // 스타일이 없으면 지금 스타일(빨간 테두리 포함)을 그대로 둔다 — 지어낸
@@ -862,7 +862,7 @@ func TestAnnotateRevertDoesNotBlankStyleWhenBaseStyleMissing(t *testing.T) {
 	}
 }
 
-// [중요 3] 코드리뷰 수정: 요약 박스만 남고 마크된 셀이 하나도 없는
+// 코드리뷰 수정: 요약 박스만 남고 마크된 셀이 하나도 없는
 // 파일에서 Result.Pages가 0으로 남으면 안 된다. Tasks 14/15가 이 값을
 // 그대로 사용자에게 출력하므로, 파일이 실제로 바뀌었는데 "0개 되돌림"으로
 // 보고하는 것은 거짓말이다.
@@ -1049,7 +1049,7 @@ func TestCleanDoesNotDestroyOtherPageStyleOnIDCollision(t *testing.T) {
 	}
 
 	// pg1의 스타일은 마크되기 전 원래 모습(shape=table;...)으로 실제로
-	// 복원돼야 한다 — Task 6 이전에는 겹친 id에서 복원을 포기하고
+	// 복원돼야 한다 — 작업 6 이전에는 겹친 id에서 복원을 포기하고
 	// erdtoolBaseStyle을 남긴 채 경고했지만, 편집이 페이지별로만
 	// 적용되는 지금은 그럴 이유가 없다.
 	assertSameStyle(t, cellInPage(t, out, "pg1", "t1").Style, "shape=table;childLayout=tableLayout;")
@@ -1229,8 +1229,8 @@ const fixtureResidueOnly = `<mxfile><diagram name="고객" id="pg1"><mxGraphMode
 // 고쳐서 진단이 사라진 뒤에도 빨간 테두리가 영영 남고, erdtool은
 // Changed=false로 «할 일 없음»을 보고한다.
 //
-// 이 분기는 Marked(erdtoolIssue)가 아니라 ResidueIDs()를 본다(코드리뷰
-// [중요 1]). 픽스처는 사람이 erdtoolIssue만 지운 상태라 Marked는 비어
+// 이 분기는 Marked(erdtoolIssue)가 아니라 ResidueIDs()를 본다(코드리뷰)
+// . 픽스처는 사람이 erdtoolIssue만 지운 상태라 Marked는 비어
 // 있고 ResidueIDs()만 이 셀을 잡는다 — Marked로 되돌리면 이 테스트가
 // 실패한다.
 func TestAnnotateRevertsResidueWhenNoFindings(t *testing.T) {

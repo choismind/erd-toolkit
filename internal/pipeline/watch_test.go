@@ -37,7 +37,7 @@ func TestWatch_RegeneratesOnWrite(t *testing.T) {
 }
 
 func TestWatch_ReportsGenerateErrors(t *testing.T) {
-	// I5: 저장한 파일이 깨져 있으면 Generate가 에러를 내는데 Watch가
+	// 저장한 파일이 깨져 있으면 Generate가 에러를 내는데 Watch가
 	// `if err == nil` 로 조용히 버려서 화면에 아무 것도 안 떴다 — 사용자는
 	// 산출물이 안 바뀌는 것만 보고 이유를 알 길이 없다.
 	tmp := t.TempDir()
@@ -68,7 +68,7 @@ func TestWatch_ReportsGenerateErrors(t *testing.T) {
 }
 
 func TestWatch_ClosesEventsChannelOnStop(t *testing.T) {
-	// M9 잔여: Watch가 반환하면서 events를 close하지 않아 호출자의
+	// 남은 결함: Watch가 반환하면서 events를 close하지 않아 호출자의
 	// `for r := range events`가 영원히 대기했다 — Ctrl+C 후에도 프로세스가
 	// 스스로 끝나지 못한다.
 	tmp := t.TempDir()
@@ -94,7 +94,7 @@ func TestWatch_ClosesEventsChannelOnStop(t *testing.T) {
 }
 
 func TestWatch_StopsEvenIfNobodyReadsEvents(t *testing.T) {
-	// M9 잔여: events가 unbuffered면 소비자가 없을 때 Watch가 전송에서
+	// 남은 결함: events가 unbuffered면 소비자가 없을 때 Watch가 전송에서
 	// 막혀 stop을 영영 못 본다. 전송도 stop과 함께 select해야 한다.
 	tmp := t.TempDir()
 	target := filepath.Join(tmp, "watched.drawio")
@@ -231,7 +231,7 @@ func TestWatch_OneSaveProducesOneEvent(t *testing.T) {
 }
 
 func TestWatch_RecursiveWatchesSubdirs(t *testing.T) {
-	// I9: generate가 recursive를 따르는데 watch만 무시하면, 같은
+	// generate가 recursive를 따르는데 watch만 무시하면, 같은
 	// erdtool.yaml로 돌렸을 때 두 명령의 대상이 조용히 달라진다.
 	tmp := t.TempDir()
 	sub := filepath.Join(tmp, "sub")

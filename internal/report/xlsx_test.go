@@ -55,7 +55,7 @@ func TestTableDocXLSX_테이블시트에머리와컬럼이있다(t *testing.T) {
 }
 
 func TestTableDocXLSX_페이지표기가옵션을따른다(t *testing.T) {
-	// I6: 같은 실행의 산출물들이 서로 다른 제목을 달고 나가면 안 된다.
+	// 같은 실행의 산출물들이 서로 다른 제목을 달고 나가면 안 된다.
 	// 엑셀도 나머지 셋과 같은 규칙(pageLabel)을 써야 한다.
 	domain, err := TableDocXLSX(sampleDoc(), Options{PageAsDomain: true})
 	if err != nil {

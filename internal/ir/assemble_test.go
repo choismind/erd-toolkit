@@ -47,7 +47,7 @@ func TestAssemble_DuplicateNameAcrossPages(t *testing.T) {
 	}
 }
 
-// TestAssemble_StructuralCellsNotShapeViolations는 I4 회귀 테스트다:
+// TestAssemble_StructuralCellsNotShapeViolations는 회귀 테스트다:
 // draw.io의 필수 구조 셀(id="0" 루트, id="1" 기본 부모)은 style 속성이
 // 아예 없어 예전엔 ClassifyShape이 ShapeClassViolation으로 오판했다 —
 // 매 페이지마다 가짜 shape_violation 2건이 검증 리포트 맨 위에 뜨는

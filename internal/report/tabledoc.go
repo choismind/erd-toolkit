@@ -28,7 +28,7 @@ const docTitle = "테이블정의서"
 // 시그니처가 함께 길어지고, 호출자가 순서를 헷갈리는 순간 «pageAsDomain 자리에
 // dialect가 들어가는» 사고가 난다.
 type Options struct {
-	// PageAsDomain은 페이지를 «도메인»이라 부를지다(스펙: 다중 페이지 처리).
+	// PageAsDomain은 페이지를 «도메인»이라 부를지다(원장: 다중 페이지 처리).
 	PageAsDomain bool
 	// Dialect는 이 ERD가 겨누는 DBMS다. 빈 값이면 ANSI다.
 	//
@@ -88,7 +88,7 @@ func tableListRows(doc model.Document, opt Options) [][]string {
 }
 
 // pageLabel은 페이지 칸의 값이다. page_as_domain이 켜지면 페이지를 «도메인»
-// 이라 부른다(스펙: 다중 페이지 처리).
+// 이라 부른다(원장: 다중 페이지 처리).
 func pageLabel(pageName string, pageAsDomain bool) string {
 	if pageName == "" {
 		return ""
@@ -195,7 +195,7 @@ func tableRelationRows(d model.Diagram, t model.Table, refs map[string]model.Col
 const noRelationNote = "이 테이블에 걸린 관계선이 없다."
 
 // conflictIndex는 «이 셀의 이 이름은 값을 고르지 않았다»를 조회한다.
-// 키는 셀 id + 속성 이름이며, 컬럼 제약의 셀 id는 행(tableRow) 셀 id다(I7).
+// 키는 셀 id + 속성 이름이며, 컬럼 제약의 셀 id는 행(tableRow) 셀 id다.
 type conflictIndex map[string]bool
 
 func newConflictIndex(d model.Diagram) conflictIndex {
@@ -315,7 +315,7 @@ func tableHeadingLines(d model.Diagram, t model.Table, i conflictIndex, opt Opti
 
 // eachTable은 리포터 넷과 DDL 생성이 공통으로 도는 순회다. 도는 규칙이 여러
 // 곳에 복제되면 한 곳만 고쳤을 때 산출물끼리 조용히 갈린다 — 관계정의서가
-// 실제로 그랬다(M4).
+// 실제로 그랬다.
 func eachTable(doc model.Document, fn func(d model.Diagram, t model.Table, i conflictIndex)) {
 	for _, d := range doc.Diagrams {
 		i := newConflictIndex(d)

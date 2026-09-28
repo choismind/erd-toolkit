@@ -1,7 +1,8 @@
 # erdtool.connections.example.yaml
 #
 # 이 파일을 erdtool.connections.yaml로 복사해서 쓴다.
-# 복사본은 .gitignore에 걸려 있다 — 비밀번호가 평문으로 들어가기 때문이다.
+# 복사본에는 비밀번호가 평문으로 들어가므로 버전 관리에 올리지 않는다.
+# 명령을 실행한 폴더에서 찾는다. 다른 곳에 두었으면 --connections로 준다.
 #
 # 섹션 이름은 자유다. 어느 DBMS인지는 섹션 이름이 아니라 DSN 스킴으로 정하므로
 # PostgreSQL 인스턴스를 dev/prod 둘로 둬도 된다.

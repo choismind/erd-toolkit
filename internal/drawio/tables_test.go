@@ -70,7 +70,7 @@ func TestExtractColumns_RowspanMergedKey(t *testing.T) {
 
 func TestExtractColumns_NonStandardValuePreservesRaw(t *testing.T) {
 	// "UniqueID"처럼 타입 없이 이름만 있는 값 -> 플레이스홀더로 대체하지
-	// 않고 RawValue를 보존해야 한다 (부록 B, gen_tablespec.py의 결함).
+	// 않고 RawValue를 보존해야 한다 (원장, 이전 구현의 결함).
 	//
 	// 픽스처는 irregular_rows.drawio다. 2026-09-21까지 이 테스트는
 	// entity_table_basic.drawio를 읽고 있었는데 그 파일에는 "UniqueID"가
@@ -101,7 +101,7 @@ func TestExtractColumns_NonStandardValuePreservesRaw(t *testing.T) {
 }
 
 func TestExtractColumns_ObjectWrappedTable(t *testing.T) {
-	// C1 회귀: <object>/<UserObject>로 감싼 테이블도 일반 테이블과 동일하게
+	// 회귀: <object>/<UserObject>로 감싼 테이블도 일반 테이블과 동일하게
 	// 행(tableRow)->컬럼 추출까지 끝까지 동작해야 한다. FindTables만 통과하고
 	// 자식 인덱싱(부모 id 불일치 등)이 깨지면 컬럼 0개로 조용히 비게 된다.
 	diagrams, err := LoadDiagrams("testdata/object_wrapped_table.drawio")
@@ -123,8 +123,8 @@ func TestExtractColumns_ObjectWrappedTable(t *testing.T) {
 }
 
 func TestExtractColumns_IrregularRowsDoNotPanic(t *testing.T) {
-	// irregular_rows.drawio ("ERD_변형도형")는 원본 gen_tablespec.py를
-	// IndexError로 크래시시켰던 파일이다(부록 B). ExtractColumns는 이런
+	// irregular_rows.drawio ("ERD_변형도형")는 이전 구현을
+	// IndexError로 크래시시켰던 파일이다(원장). ExtractColumns는 이런
 	// 파일에서도 패닉 없이 실행되어야 한다.
 	diagrams, err := LoadDiagrams("testdata/irregular_rows.drawio")
 	if err != nil {
@@ -149,7 +149,7 @@ func TestExtractColumns_IrregularRowsDoNotPanic(t *testing.T) {
 }
 
 func TestExtractColumns_PopulatesColumnID(t *testing.T) {
-	// I7: model.Column.ID가 한 번도 채워지지 않아 JSON IR에 항상 "" 로
+	// model.Column.ID가 한 번도 채워지지 않아 JSON IR에 항상 "" 로
 	// 나갔다. Relationship.SourceColumnID/TargetColumnID는 resolveEnd가
 	// 반환하는 tableRow 셀의 id이므로, Column.ID도 같은 tableRow id여야
 	// 두 값이 서로 조인 가능한 참조가 된다(IR 1.0 계약).
@@ -178,7 +178,7 @@ func TestExtractColumns_PopulatesColumnID(t *testing.T) {
 }
 
 func TestRelationshipColumnIDJoinsToColumnID(t *testing.T) {
-	// I7 계약 검증: 컬럼 단위 관계선의 SourceColumnID/TargetColumnID는
+	// 계약 검증: 컬럼 단위 관계선의 SourceColumnID/TargetColumnID는
 	// 같은 테이블의 어떤 Column.ID와 반드시 일치해야 한다.
 	diagrams, err := LoadDiagrams("testdata/relationship_physical.drawio")
 	if err != nil {
@@ -219,7 +219,7 @@ func TestRelationshipColumnIDJoinsToColumnID(t *testing.T) {
 }
 
 func TestExtractColumns_IgnoresNonPartialRectangleRowChildren(t *testing.T) {
-	// M5: 행의 자식 2개를 children[0]/children[1]로 위치만 보고 키 셀/정의
+	// 행의 자식 2개를 children[0]/children[1]로 위치만 보고 키 셀/정의
 	// 셀이라 가정하면, 행 안에 다른 도형(주석 텍스트, 아이콘 등)이 하나라도
 	// 끼어 있는 순간 엉뚱한 셀을 컬럼 값으로 읽는다. 자식은 반드시
 	// shape=partialRectangle인 것만 골라야 한다.
@@ -344,7 +344,7 @@ func TestParseColumnValue_GoldenFromCommittedFixtures(t *testing.T) {
 	}
 }
 
-// TestParseColumnValue_TypeWithSpaces는 이 태스크가 존재하는 이유다.
+// TestParseColumnValue_TypeWithSpaces는 이 작업이 존재하는 이유다.
 // 실제 DB가 내는 공백 든 타입이 잘리지 않아야 한다.
 func TestParseColumnValue_TypeWithSpaces(t *testing.T) {
 	cases := []struct {

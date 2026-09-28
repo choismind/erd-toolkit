@@ -269,7 +269,7 @@ func tableHeight(t TableDef) int {
 }
 
 // Layout은 PageDef의 테이블들을 관계 그래프 기반 계층 배치로 좌표를
-// 붙인다(스펙 "배치 알고리즘" 절, 접근 A). 관계에 한 번이라도 등장하는
+// 붙인다(원장 "배치 알고리즘" 절, 접근 A). 관계에 한 번이라도 등장하는
 // 테이블은 층별로 나열하고, 전혀 등장하지 않는 고립 테이블은 그래프
 // 아래쪽에 격자로 배치한다.
 func Layout(p PageDef) PageLayout {

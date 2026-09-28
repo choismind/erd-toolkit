@@ -7,8 +7,8 @@
 - Spreadsheet (xlsx/csv) → `.drawio`
 - Validation findings marked back onto the same `.drawio`, and removable again
 
-**Everything the tool writes is Korean** — diagnostics, reports and specifications.
-So is the rest of this README.
+**Reports, specifications and validation diagnostics are written in Korean** —
+so is the rest of this README. A few command-line error messages are in English.
 
 Built with [Claude Code](https://claude.com/claude-code), Anthropic's AI coding tool.
 
@@ -270,8 +270,11 @@ erdtool convert <file-or-dir> [--out dir] [--dictionary path] [--config path] [-
 - 원본 레이아웃(행 높이·키 열 너비·관계선)을 그대로 보존한다.
 - 한글 논리명은 셀의 `logicalName` 속성에 남는다 — draw.io의
   «데이터 편집» 창에서 볼 수 있다.
-- 조각을 하나도 못 찾으면 `[미변환]`으로 표시한다. 지어내지 않는다.
+- 사전에서 조각을 못 찾은 이름은 그대로 둔다. 지어내지 않는다.
+  `--dry-run` 표에는 `[미변환]`으로 나온다.
 - 이미 변환된 `*.physical.drawio`는 폴더 처리 시 건너뛴다.
+- 함께 쓸 수 없는 조합이 셋이다 — 폴더에 `--dry-run`, 파일에 `--recursive`,
+  `--out`과 `--dry-run`을 함께.
 
 사전 경로는 `--dictionary`로 주거나 설정 파일에 적는다. 둘 다 없으면 대상
 폴더에서 자동탐색한다.
@@ -503,8 +506,10 @@ pages:                        # 페이지별 재정의
 
 ### `erdtool.connections.yaml` — DB 접속 설정 (`reverse` 전용)
 
-`erdtool.connections.example.yaml`을 복사해서 쓴다. 복사본은 `.gitignore`에
-걸려 있다 — 비밀번호가 평문으로 들어가기 때문이다. 섹션 이름은 자유이고,
+`erdtool.connections.example.yaml`을 복사해서 쓴다. 복사본에는 비밀번호가
+평문으로 들어가므로 버전 관리에 올리지 않는다(이 저장소는 `.gitignore`에
+걸어 두었다). 명령을 실행한 폴더에서 `erdtool.connections.yaml`, 그다음
+`.yml`을 찾는다. 다른 곳에 두었으면 `--connections`로 준다. 섹션 이름은 자유이고,
 어느 DBMS인지는 섹션 이름이 아니라 DSN 스킴으로 정한다.
 
 ```yaml
@@ -545,7 +550,7 @@ make release VERSION=1.0.0   # dist/에 4개 플랫폼 바이너리. VERSION이 
    `"shape=tableRow"`에도 걸리는 버그가 이 프로젝트가 존재하는 이유다.
 2. **테이블→행→컬럼 3단 구조는 ID/parent 인덱스로만 탐색한다.** XML 문서
    순서에 의존하지 않는다.
-3. **손으로 옮겨적은 예제 데이터를 믿지 않는다.** 실제 파일에서 프로그램으로
+3. **손으로 옮겨 적은 예제 데이터를 믿지 않는다.** 실제 파일에서 프로그램으로
    추출해 왕복 검증한 뒤 쓴다.
 4. **`exit 0`이 곧 정답이 아니다.** 실제 바이너리를 빌드해 돌리고 산출물을
    직접 확인한다.

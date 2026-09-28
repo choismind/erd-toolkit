@@ -28,7 +28,7 @@ type ConvertFileResult struct {
 	Stats      convert.Stats
 	// Overwritten은 쓰기 «전»에 이미 그 경로에 파일이 있었는지다.
 	//
-	// 스펙 결정 5는 convert를 별도 서브커맨드로 둔 이유를 "중간 산출물(물리
+	// 원장 결정 5는 convert를 별도 서브커맨드로 둔 이유를 "중간 산출물(물리
 	// ERD)을 사람이 검수·수정한 다음 리포트를 만들 수 있어야" 한다고 못
 	// 박았다. 그런데 convert를 다시 돌리면 그 손댄 파일을 아무 신호 없이
 	// 덮어쓴다. logicalName은 «이름»만 지켜준다 — 레이아웃, 손으로 더한

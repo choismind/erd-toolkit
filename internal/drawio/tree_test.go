@@ -4,7 +4,7 @@ import "testing"
 
 func TestBuildIndex_OutOfOrderCells(t *testing.T) {
 	// out_of_order_cells.drawio는 "테이블 셀 바로 다음 형제가 그 테이블의
-	// 첫 행"이라는 문서 순서 가정이 깨진 실제 파일이다(부록 B). ID/parent
+	// 첫 행"이라는 문서 순서 가정이 깨진 실제 파일이다(원장). ID/parent
 	// 인덱스는 순서와 무관하게 정확해야 한다.
 	diagrams, err := LoadDiagrams("testdata/out_of_order_cells.drawio")
 	if err != nil {

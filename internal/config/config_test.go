@@ -64,7 +64,7 @@ pages:
 }
 
 func TestDiscover_FindsErdtoolYaml(t *testing.T) {
-	// I9: 지금은 --config로만 설정을 줄 수 있어서, .drawio 옆에 설정을 두고
+	// 지금은 --config로만 설정을 줄 수 있어서, .drawio 옆에 설정을 두고
 	// 그냥 `erdtool generate .`을 치면 설정이 조용히 무시됐다.
 	dir := t.TempDir()
 	want := filepath.Join(dir, "erdtool.yaml")

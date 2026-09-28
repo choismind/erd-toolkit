@@ -38,7 +38,7 @@ type Table struct {
 }
 
 // ColumnLevel이 false면 관계선이 행이 아니라 테이블에 직접 연결된 것이며
-// SourceColumnID/TargetColumnID는 빈 문자열이다 (스펙: 관계선이 테이블에 직접
+// SourceColumnID/TargetColumnID는 빈 문자열이다 (원장: 관계선이 테이블에 직접
 // 연결된 경우).
 //
 // SourceRawID/TargetRawID는 엣지의 원본 source/target 셀 id를 해석 성공
@@ -77,7 +77,7 @@ type Relationship struct {
 }
 
 // Shape은 도형 이름만 담는다("note", "ellipse", ...). 예전에는 style 문자열
-// 전체가 여기 들어가 IR과 검증 리포트 메시지에 그대로 노출됐다(M11). 이름을
+// 전체가 여기 들어가 IR과 검증 리포트 메시지에 그대로 노출됐다. 이름을
 // 특정할 수 없는 스타일도 있으므로(순수 key=value 조합) 원본은 Style에
 // 남긴다.
 type IgnoredShape struct {
@@ -108,7 +108,7 @@ type ShapeViolation struct {
 // 값)과 모르는 이름(오타 등) 둘 다 이 모양으로 나른다 — 둘 다 «어느 셀의
 // 어느 이름이 문제인가»가 전부이기 때문이다.
 type AttrIssue struct {
-	// CellID는 진단을 붙일 셀이다. 컬럼이면 행(tableRow) 셀 id(I7 계약),
+	// CellID는 진단을 붙일 셀이다. 컬럼이면 행(tableRow) 셀 id,
 	// 테이블이면 테이블 셀 id다. annotate가 이 값으로 빨간 테두리를 친다.
 	CellID     string `json:"cell_id"`
 	TableName  string `json:"table_name"`

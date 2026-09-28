@@ -132,7 +132,7 @@ func TestExtractTable_실제픽스처에서제약을읽는다(t *testing.T) {
 	if len(cust.Conflicts) != 1 || cust.Conflicts[0].ColumnName != "CUST_NO" {
 		t.Fatalf("CUST_NO 충돌 하나가 보고돼야 한다: %+v", cust.Conflicts)
 	}
-	// 진단은 행(tableRow) 셀에 붙는다 — annotate가 그 id로 테두리를 친다(I7).
+	// 진단은 행(tableRow) 셀에 붙는다 — annotate가 그 id로 테두리를 친다.
 	if cust.Conflicts[0].CellID != no.ID {
 		t.Errorf("진단이 행 셀을 가리켜야 한다: got %q want %q", cust.Conflicts[0].CellID, no.ID)
 	}

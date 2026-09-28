@@ -35,7 +35,7 @@ func TestAnnotatedFileDoesNotGrowFindings(t *testing.T) {
 // 페이지 레벨도 안 뒤집혀야 한다. Ignored는 Parsed/Violation 집계에
 // 안 들어가므로 note를 넣어도 relational이 유지된다.
 //
-// fixtureWithMissingPK가 아니라 fixtureLonelyTable을 쓴다(Task 16 리뷰
+// fixtureWithMissingPK가 아니라 fixtureLonelyTable을 쓴다(작업 16 리뷰
 // 라운드 1) — fixtureWithMissingPK는 Parsed 셀이 4개라 annotate가 손대는
 // annotate는 자기 물건(요약 박스, <object> 래퍼)을 그림에 더한다. 그것 때문에
 // 다시 읽었을 때 결과가 달라지면 안 된다. fixtureLonelyTable은 읽히는 도형이
@@ -120,7 +120,7 @@ func TestAnnotatedFileSurvivesConvertRewrite(t *testing.T) {
 			strings.Count(string(converted), `id="t1"`))
 	}
 
-	// 위의 속성 확인만으로는 부족하다(Task 16 리뷰 라운드 1) —
+	// 위의 속성 확인만으로는 부족하다(작업 16 리뷰 라운드 1) —
 	// erdtoolIssue/erdtoolBaseStyle은 속성이고, 실제 마크(빨간 테두리)와
 	// shape=table은 같은 style 문자열 안에 있다. convert가 감싸인 mxCell의
 	// style을 지우거나(예: style="") shape=table을 잃게 만들어도 위 두

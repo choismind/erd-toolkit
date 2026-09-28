@@ -6,7 +6,7 @@ import (
 	"erdtool/internal/genbuild"
 )
 
-// TestDecideCardinality_FourCases는 스펙 "카디널리티" 절의 표를 그대로
+// TestDecideCardinality_FourCases는 원장 "카디널리티" 절의 표를 그대로
 // 고정한다. 표의 세 줄은 draw.io가 직접 제공하는 프리셋과 같다.
 func TestDecideCardinality_FourCases(t *testing.T) {
 	cases := []struct {

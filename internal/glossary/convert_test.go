@@ -112,7 +112,7 @@ func TestConvert_EmptyAndBlank(t *testing.T) {
 	}
 }
 
-// TestConvert_AlreadyEnglishNameSurvives는 스펙의 사용자 승인 결정 6
+// TestConvert_AlreadyEnglishNameSurvives는 원장의 사용자 승인 결정 6
 // («파일 안의 모든 테이블을 변환한다 — 이미 영문인 이름은 전부 미매칭으로
 // 떨어져 그대로 남으므로 사실상 무해하며 멱등적»)의 전제를 붙잡는다.
 //
@@ -251,7 +251,7 @@ func TestConvert_TrimsBoundaryWhitespace(t *testing.T) {
 // 이것은 예전 결정(«구분자는 조각도 아니고 출력에도 남기지 않는다»)을
 // 뒤집은 것이다. 밑줄은 사용자가 직접 찍은 글자이므로 몇 개가 어디에 있든
 // 그대로 살아남는다. 공백은 다르다 — 낱말을 가르는 «구분»이므로 안쪽
-// 공백은 밑줄 하나로 합류하고 경계 공백은 잘린다(U2).
+// 공백은 밑줄 하나로 합류하고 경계 공백은 잘린다.
 func TestConvert_UnderscoreSurvives(t *testing.T) {
 	d := convTestDict(t)
 	for _, tc := range []struct{ in, want string }{
@@ -438,7 +438,7 @@ func TestConvert_SeparatorSegmentRecoversFullAbbr(t *testing.T) {
 // 단어사전에는 IP·SMS·GIS 같은 영문 표제어가 섞여 있다. 가드가 없으면
 // 이미 영문인 이름의 조각이 그 표제어에 걸려 터진다 — 실물 사전 코퍼스
 // 측정에서 `HOME_ZIP` -> `HOME_Z_IP`, `SLIP_NO` -> `SL_IP_NO`,
-// `DSMSL_YMD` -> `D_SMS_L_YMD` 부류로 17행이 망가졌다. 스펙의 승인 결정
+// `DSMSL_YMD` -> `D_SMS_L_YMD` 부류로 17행이 망가졌다. 원장의 승인 결정
 // 6(«이미 영문인 이름은 그대로 남으므로 무해하고 멱등적»)이 그 자리에서
 // 거짓이 된다.
 func TestConvert_SeparatorSkipsSegmentForEnglishPiece(t *testing.T) {
@@ -509,7 +509,7 @@ func TestConvert_SeparatorSegmentIsIdempotent(t *testing.T) {
 // 걸려 터졌다 — 실물 사전에서 ZIP -> Z_IP, SLIP -> SL_IP, OZIP -> OZ_IP,
 // DSMSL -> D_SMS_L.
 //
-// 이것은 스펙의 승인 결정 6(«이미 영문인 이름은 전부 미매칭으로 떨어져 그대로
+// 이것은 원장의 승인 결정 6(«이미 영문인 이름은 전부 미매칭으로 떨어져 그대로
 // 남으므로 사실상 무해하며 멱등적»)을 정면으로 깨는 자리였다.
 //
 // 처음에는 «두 경로가 같은 segmentGuarded를 통하므로 다시 어긋날 수 없다»고

@@ -95,7 +95,7 @@ func TestRequired_BrokenReference_ExistsButUnresolvedIsNotFlagged(t *testing.T) 
 }
 
 func TestRequired_BrokenReference_RealFixture_OutOfOrderCells_NoFalsePositive(t *testing.T) {
-	// C2 재검토에서 발견된 회귀: out_of_order_cells.drawio는 구버전 2단
+	// 재검토에서 발견된 회귀: out_of_order_cells.drawio는 구버전 2단
 	// 테이블 형식(행이 shape=tableRow가 아니라 partialRectangle로 테이블에
 	// 직접 매달림)을 쓴다. resolveEnd가 이 행 변형을 인식하지 못해 모든
 	// 관계 끝이 Resolved=false가 되지만, raw id 자체는 실존하는 셀을
@@ -120,7 +120,7 @@ func TestRequired_BrokenReference_RealFixture_OutOfOrderCells_NoFalsePositive(t 
 }
 
 // TestRequired_BrokenReference_RealFixture_BothEndsDangling과
-// TestRequired_BrokenReference_RealFixture_OneEndDangling은 C2 회귀
+// TestRequired_BrokenReference_RealFixture_OneEndDangling은 회귀
 // 테스트다: model.Document를 손으로 만들지 않고 실제 파서
 // (ir.Assemble)가 만들어내는 상태를 그대로 검증기에 넣는다. 이전 구현은
 // resolveEnd가 실패한 관계를 아예 드롭하거나(양쪽 다 끊긴 경우) 끊어진
@@ -183,7 +183,7 @@ func hasRule(findings []Finding, rule string) bool {
 }
 
 func TestRequired_LowercasePKIsRecognized(t *testing.T) {
-	// M1: 키 셀에 "pk"라고 소문자로 적힌 테이블은 PK가 있는 것이다. 판정이
+	// 키 셀에 "pk"라고 소문자로 적힌 테이블은 PK가 있는 것이다. 판정이
 	// 대소문자를 구분하면 멀쩡한 테이블에 missing_primary_key 경고가 뜬다.
 	doc := model.Document{Diagrams: []model.Diagram{{
 		Name: "p1",
@@ -240,7 +240,7 @@ func TestDuplicateTableNameHasNoCellID(t *testing.T) {
 }
 
 func TestRequired_ShapeViolationMessageUsesShapeName(t *testing.T) {
-	// M11: 위반 메시지에 style 문자열 전체가 아니라 도형 이름이 들어가야
+	// 위반 메시지에 style 문자열 전체가 아니라 도형 이름이 들어가야
 	// 한다. 이름을 특정할 수 없는 스타일일 때만 원본 style로 폴백한다 —
 	// 그마저 없으면 사용자는 어떤 도형인지 알 방법이 없다.
 	doc := model.Document{Diagrams: []model.Diagram{{

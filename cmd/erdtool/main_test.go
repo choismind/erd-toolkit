@@ -173,7 +173,7 @@ func TestResolveDictionary_NoneIsError(t *testing.T) {
 		t.Fatal("사전이 전혀 없으면 에러여야 한다")
 	}
 	// 이 문구가 곧 처방이다 — 사전을 주는 세 가지 길을 사용자가 배우는
-	// 자리는 여기뿐이고, 스펙도 이 실패를 따로 짚는다("셋 다 없으면 에러로
+	// 자리는 여기뿐이고, 원장도 이 실패를 따로 짚는다("셋 다 없으면 에러로
 	// 멈춘다"). err != nil만 보면 문구가 "no dictionary"로 쪼그라들어도
 	// 테스트는 통과하고, 사용자는 무엇을 해야 하는지 모른 채 남는다.
 	for _, remedy := range []string{"--dictionary", "dictionary:", "표준용어사전.xlsx"} {
@@ -270,7 +270,7 @@ func TestPrintDryRun(t *testing.T) {
 	printDryRun(&buf, stats)
 	out := buf.String()
 
-	// F3: substring 검사는 "미매칭"이 줄별 절에 있든 요약 절에 있든 다
+	// substring 검사는 "미매칭"이 줄별 절에 있든 요약 절에 있든 다
 	// 통과시키고, 요약의 단위(예: "N개" vs "N건")가 틀려도 잡지 못한다.
 	// 표 전체를 손으로 계산한 문자열과 정확 비교한다 — %-6s 열 정렬,
 	// [분해] 경로 표시, 미매칭 조각 나열, 요약 줄의 단위까지 전부 고정한다.
@@ -286,7 +286,7 @@ func TestPrintDryRun(t *testing.T) {
 
 func TestPrintConvertResults_SignalsFailure(t *testing.T) {
 	// printFolderResults를 그대로 쓰면 outDir/tableCount가 없어 "(0 tables)"
-	// 같은 거짓 문구가 나온다(R1) — convert 전용 출력 함수를 검증한다.
+	// 같은 거짓 문구가 나온다 — convert 전용 출력 함수를 검증한다.
 	results := []pipeline.ConvertFileResult{
 		{SourceFile: "ok.drawio", OutputFile: "ok.physical.drawio",
 			Stats: convert.Stats{Total: 3, Converted: 2, Unmatched: []string{"약"}}},
@@ -297,7 +297,7 @@ func TestPrintConvertResults_SignalsFailure(t *testing.T) {
 	if failed := printConvertResults(&out, &errOut, "somedir", results); !failed {
 		t.Fatal("파일 하나가 실패했으면 failed=true여야 한다")
 	}
-	// F1: Unmatched는 «낱말» 목록이지 «이름» 개수가 아니다. 앞 절의 "건"을
+	// Unmatched는 «낱말» 목록이지 «이름» 개수가 아니다. 앞 절의 "건"을
 	// 그대로 상속하는 "1개 미매칭"이 아니라 명사가 붙은 "미매칭 낱말 1개"여야
 	// "22건 중 22건 변환, 1건이 미매칭으로 실패했나?"로 잘못 읽히지 않는다.
 	if !strings.Contains(out.String(), "[CONVERTED] ok.physical.drawio (3건 중 2건 변환, 미매칭 낱말 1개)") {
@@ -327,8 +327,8 @@ func TestPrintConvertResults_AllGood(t *testing.T) {
 }
 
 func TestPrintConvertResults_EmptyResultsReportsAndSucceeds(t *testing.T) {
-	// F4: ConvertFolder는 이미 변환된 산출물(*.physical.drawio)을 건너뛴다
-	// (R4). 같은 폴더에 두 번째로 erdtool convert를 돌리면 results가 통째로
+	// ConvertFolder는 이미 변환된 산출물(*.physical.drawio)을 건너뛴다.
+	// 같은 폴더에 두 번째로 erdtool convert를 돌리면 results가 통째로
 	// 비어 돌아온다 — 아무것도 안 찍고 exit 0으로 끝나면 스크립트에게는
 	// 성공과 구별되지 않고 사람에게는 그냥 의아하다.
 	var out, errOut bytes.Buffer
@@ -347,7 +347,7 @@ func TestPrintConvertResults_EmptyResultsReportsAndSucceeds(t *testing.T) {
 // TestPrintConvertResults_OverwrittenGetsItsOwnWord는 «만들었다»와 «당신이
 // 고친 파일을 덮어썼다»가 구별되는지 본다.
 //
-// 스펙 결정 5는 물리 ERD를 사람이 검수·수정한 다음 리포트를 만드는 흐름을
+// 원장 결정 5는 물리 ERD를 사람이 검수·수정한 다음 리포트를 만드는 흐름을
 // 전제한다. convert 재실행은 그 손댄 파일을 대체하는데, logicalName이
 // 지켜주는 것은 이름뿐이다(레이아웃·손으로 더한 컬럼·메모는 아니다).
 // 재실행 자체를 막지는 않는다 — 멱등성이 설계 목표라 두 번째 실행을

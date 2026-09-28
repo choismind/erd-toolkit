@@ -8,7 +8,7 @@ import (
 )
 
 // TableDocMarkdown은 테이블정의서를 렌더링한다. pageAsDomain이 true면
-// 각 테이블 제목 옆에 "도메인"(페이지명)을 표시한다(스펙: 다중 페이지
+// 각 테이블 제목 옆에 "도메인"(페이지명)을 표시한다(원장: 다중 페이지
 // 처리 — page_as_domain 옵션, 기본값 꺼짐).
 func TableDocMarkdown(doc model.Document, opt Options) string {
 	var b strings.Builder
@@ -53,7 +53,7 @@ func writeMarkdownTable(b *strings.Builder, headers []string, rows [][]string) {
 
 // RelationDocMarkdown은 관계정의서를 렌더링한다. 예전에는 테이블명 대신
 // 원시 셀 id를 그대로 찍고, 컬럼명은 아예 빼먹고, 다른 리포터들과 달리
-// conceptual 페이지도 걸러내지 않았다(M4) — 사람이 읽을 수 없는 문서였다.
+// conceptual 페이지도 걸러내지 않았다 — 사람이 읽을 수 없는 문서였다.
 //
 // 해석되지 않은 끝점은 빈 칸으로 삼키지 않고 "(미해석: <원본 id>)"로
 // 남긴다. 조용히 비면 검증 리포트의 broken_reference와 대조할 단서가
@@ -65,7 +65,7 @@ func RelationDocMarkdown(doc model.Document) string {
 	b.WriteString("|---|---|---|---|---|---|---|\n")
 	for _, d := range doc.Diagrams {
 		// 컬럼 조회는 Column.ID(= 행 셀 id)를 키로 쓴다. Relationship의
-		// Source/TargetColumnID도 같은 행 id라서 그대로 조인된다(I7).
+		// Source/TargetColumnID도 같은 행 id라서 그대로 조인된다.
 		tables := map[string]model.Table{}
 		columns := map[string]model.Column{}
 		for _, t := range d.Tables {

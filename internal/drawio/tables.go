@@ -28,12 +28,12 @@ func FindTables(cells []RawCell) []RawCell {
 // RowBoxes는 행 셀에서 키 셀과 정의 셀을 골라낸다.
 //
 // 행의 자식을 위치로만 집으면(children[0]/children[1]) 행 안에 장식용 도형이
-// 하나라도 끼어 있는 순간 엉뚱한 셀을 키/정의 셀로 읽는다(M5).
+// 하나라도 끼어 있는 순간 엉뚱한 셀을 키/정의 셀로 읽는다.
 // shape=partialRectangle인 자식만 골라낸 뒤 앞의 둘을 쓴다.
 //
 // ExtractColumns(읽기)와 internal/convert(쓰기)가 이 함수를 공유한다.
 // 정의 셀을 고르는 규칙이 두 벌 생기면 두 경로의 결과가 조용히 갈린다 —
-// Column.ID는 I7 계약에 따라 정의 셀이 아니라 행 셀의 id이므로,
+// Column.ID는 정의 셀이 아니라 행 셀의 id이므로,
 // 쓰기 쪽은 ExtractColumns의 반환값만으로는 정의 셀을 찾을 수 없다.
 func RowBoxes(row RawCell, idx CellIndex) (key, def RawCell, ok bool) {
 	var boxes []RawCell
@@ -102,7 +102,7 @@ func ExtractTable(tableCell RawCell, idx CellIndex) TableExtract {
 				if span, ok := keyStyle["rowspan"]; ok {
 					// ParseStyle이 이미 ";" 구분자를 잘라내고 map에 넣으므로
 					// span에는 세미콜론이 남아있지 않다 — TrimSuffix는 항상
-					// no-op이었다(죽은 코드, M6).
+					// no-op이었다(죽은 코드).
 					if n, err := strconv.Atoi(span); err == nil && n > 1 {
 						rowspanRemaining = n
 						inheritedKey = key
@@ -112,7 +112,7 @@ func ExtractTable(tableCell RawCell, idx CellIndex) TableExtract {
 		}
 
 		col := parseColumnValue(defCell.Value, key)
-		// Column.ID는 정의 셀이 아니라 행(tableRow) 셀의 id다(I7). 관계선은
+		// Column.ID는 정의 셀이 아니라 행(tableRow) 셀의 id다. 관계선은
 		// 언제나 행에 연결되므로 resolveEnd가 돌려주는
 		// Relationship.SourceColumnID/TargetColumnID도 행 id다 — 둘을 같은
 		// id 공간에 두어야 IR 1.0에서 관계 -> 컬럼 조인이 성립한다.
@@ -165,8 +165,8 @@ var trailingFlagWords = map[string]bool{
 // SQL DDL까지 흘러가는데 검증 리포트는 "문제 없음"이라고 말한다.
 //
 // 형식을 벗어나도(예: "UniqueID"처럼 이름만 있는 경우) 플레이스홀더로
-// 대체하지 않고 원본 값을 RawValue에 그대로 보존한다 (부록 B:
-// gen_tablespec.py는 이 경우 "컬럼유형 없음" 같은 문자열을 경고 없이
+// 대체하지 않고 원본 값을 RawValue에 그대로 보존한다 (원장:
+// 이전 구현은 이 경우 "컬럼유형 없음" 같은 문자열을 경고 없이
 // 채워넣는 결함이 있었음).
 func parseColumnValue(raw string, key string) model.Column {
 	raw = strings.TrimSpace(raw)

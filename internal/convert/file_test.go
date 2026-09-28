@@ -80,14 +80,14 @@ func TestFile_IsIdempotent(t *testing.T) {
 	}
 }
 
-// TestFile_BoundaryWhitespaceAndUnderscore는 소유자 결정 U2/U3이 파일
+// TestFile_BoundaryWhitespaceAndUnderscore는 소유자 결정 둘이 파일
 // 단위에서도 성립하는지, 그리고 그 결과가 멱등적인지 본다.
 //
-//	U2 «맨 앞뒤 공백은 제거한 다음 변환» — "주문고객번호 "는 뒤에 붙은
+//	«맨 앞뒤 공백은 제거한 다음 변환» — "주문고객번호 "는 뒤에 붙은
 //	   공백 하나 때문에 통째로 변환에 실패해 한글이 그대로 물리 ERD에
 //	   실렸다. 그것을 «미매칭»이라고만 보고했으므로 사용자가 눈으로
 //	   잡아내지 못하면 조용히 틀린 산출물이 된다.
-//	U3 «명칭에 있는 언더바는 지우지 않는다» — "_고객"의 앞 밑줄이
+//	«명칭에 있는 언더바는 지우지 않는다» — "_고객"의 앞 밑줄이
 //	   소리 없이 사라져 "CUST"가 됐다.
 //
 // 멱등성은 logicalName이 지킨다: 2회차의 변환 소스는 언제나 저장된 한글
@@ -233,8 +233,8 @@ func TestOutputPath_WithoutOutDir(t *testing.T) {
 // 편집이 두 페이지에서 겹쳐도 손상으로 취급하지 않는지 확인한다.
 //
 // 2026-08-31 갱신: 페이지 사이 셀 id 충돌을 거부하던 가드는
-// `convert.RewritePlan`이 페이지 단위로 주소되면서(`e48731d`) `4228280`이
-// 없앴다 — 이제 겹친 id라도 각 페이지가 자기 편집만 받으므로 거부할
+// `convert.RewritePlan`이 페이지 단위로 주소되면서
+// 없어졌다 — 이제 겹친 id라도 각 페이지가 자기 편집만 받으므로 거부할
 // 이유가 없다. 이 테스트는 여전히 유효하다: 편집이 페이지별로 정확히
 // 적용되고 결과가 «완전히 같은» 두 편집에서도 안 어긋나는지를 잰다.
 func TestFile_IdenticalEditOnSharedIDIsNotAnError(t *testing.T) {

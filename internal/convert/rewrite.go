@@ -428,7 +428,7 @@ func rewriteStart(t xml.StartElement, p PagePlan, insideWrapper bool, enclosingI
 			// value 속성도 진짜 존재하는 속성이고(이 저장소의
 			// fixtureWithMissingPK의 r1k가 실제로 이 모양이다), 벗길 때
 			// 그 속성을 지워버리면 그 셀만 순수 왕복 결과와 달라진다
-			// (코드리뷰 [I1]의 재발 — hasLabel && label != "" 로 판정하던
+			// (코드리뷰의 재발 — hasLabel && label != "" 로 판정하던
 			// 예전 버전이 정확히 이 사고를 냈다).
 			label, hasLabel := attrValue(attrs, "label")
 			return t, nil, &unwrapInfo{id: id, value: label, hasValue: hasLabel}, nil
@@ -486,7 +486,7 @@ func rewriteStart(t xml.StartElement, p PagePlan, insideWrapper bool, enclosingI
 		}
 		// style만 있고 label도 커스텀 속성도 없다면 <object>로 감쌀 이유가
 		// 없다. 감싸면 파일이 커지고 diff가 요란해지며, --clean이 원본
-		// 바이트를 복원해야 하는 Task 13에도 걸림돌이 된다 — 지워도 되는
+		// 바이트를 복원해야 하는 작업 13에도 걸림돌이 된다 — 지워도 되는
 		// 래퍼가 새로 생기기 때문이다.
 		if e.Label == nil && len(e.Attrs) == 0 {
 			attrs := make([]xml.Attr, len(t.Attr))
@@ -508,7 +508,7 @@ func rewriteStart(t xml.StartElement, p PagePlan, insideWrapper bool, enclosingI
 		// fixtureWithMissingPK 안 r1k가 실제로 이 모양이다)은 서로 다른
 		// 사실이다 — "값이 비었다"만 보면 이 둘을 구별 못 하고, 나중에
 		// 벗길 때(encodeUnwrappedCellStart) value="" 를 가졌던 셀에서
-		// value 속성 자체를 지워버리는 사고(코드리뷰 [I1] 재발)로 이어진다.
+		// value 속성 자체를 지워버리는 사고(코드리뷰 재발)로 이어진다.
 		// e.Label이 세팅돼 있으면(nil이 아니면) 항상 값이 있는 것으로
 		// 친다 — 호출자가 명시적으로 표시값을 정한 것이므로 원래 value
 		// 속성 유무와 무관하게 label을 내야 한다.
@@ -582,7 +582,7 @@ func onlyLabelAndID(attrs []xml.Attr) bool {
 // value="주문" …>)으로 들어왔을 수도 있다. 먼저 지우지 않고 앞에 새로
 // 붙이면 id/value가 중복되어 XML 1.0 Unique Attribute Spec을 어긴다 —
 // Go의 디코더는 조용히 받아주지만(그래서 이 저장소의 어떤 테스트도 못
-// 잡았다) draw.io의 DOMParser는 거부한다(코드리뷰 [C1]).
+// 잡았다) draw.io의 DOMParser는 거부한다(코드리뷰).
 //
 // hasValue가 false면(래퍼에 label 속성 자체가 없었다면) value 속성을
 // 아예 안 낸다. tableRow·edge처럼 애초에 value 속성이 없던 셀은 그대로
@@ -591,7 +591,7 @@ func onlyLabelAndID(attrs []xml.Attr) bool {
 // r1k가 실제로 이 모양이다)와는 다르다: 그때는 hasValue가 true이므로
 // value=""를 낸다. "값이 비었는가"로 판정하면 이 둘을 못 가르고, 원래
 // value=""였던 셀에서까지 속성을 지워버려 그 셀만 순수 왕복 결과와
-// 달라진다(코드리뷰 [I1] — 처음 고침이 "hasLabel && label != \"\""로
+// 달라진다(코드리뷰 — 처음 고침이 "hasLabel && label != \"\""로
 // 판정해 바로 이 사고를 냈다. 지금은 hasLabel 단독으로만 판정한다).
 //
 // 속성 순서는 id, value, (원래 순서 그대로인 나머지) 순이다. draw.io가
@@ -603,8 +603,8 @@ func onlyLabelAndID(attrs []xml.Attr) bool {
 // 쓰인 파일이라면 벗긴 뒤 속성의 "집합과 값"은 정확히 같아도 "순서"는
 // 원본과 달라질 수 있다. 이 한계는 의도적으로 안 고친다 — 벗기기 전
 // 순서를 통째로 기억해 두는 장치를 새로 만드는 비용이 이 저장소가
-// 실제로 만나는 파일(전부 draw.io 산출물)에 비해 과하다(코드리뷰
-// [I3], 다운그레이드됨). `TestRewriteCellsPlanUnwrapPreservesAttributeSetRegardlessOfOrder`가
+// 실제로 만나는 파일(전부 draw.io 산출물)에 비해 과하다(코드리뷰,
+// 다운그레이드됨). `TestRewriteCellsPlanUnwrapPreservesAttributeSetRegardlessOfOrder`가
 // "순서가 달라도 집합과 값은 정확히 같다"는 것만 못박는다.
 //
 // p.Edits[u.id].Style도 여기서 함께 적용한다. 이 mxCell은 rewriteStart의
@@ -990,7 +990,7 @@ func CountDiagrams(src []byte) (int, error) {
 //
 // 파서(drawio.LoadDiagrams)가 커스텀 속성을 버리므로, 그것을 읽어야 하는
 // 쪽은 원문을 다시 읽을 수밖에 없다. collectLogicalNames가 바로 그 이유로
-// 이미 이 읽기를 하고 있고, annotate.ScanExisting(Task 11)도 같은 것이
+// 이미 이 읽기를 하고 있고, annotate.ScanExisting(작업 11)도 같은 것이
 // 필요하다. 패키지마다 새로 쓰지 않도록 여기서 한 번만 만든다.
 func ForEachGraphModel(src []byte, fn func(pageIdx int, diagramID string, graphModel []byte) error) error {
 	dec := xml.NewDecoder(bytes.NewReader(src))

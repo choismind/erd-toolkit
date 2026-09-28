@@ -57,7 +57,7 @@ func Build(inputPath, outPath string) (BuildFileResult, error) {
 	}
 	// 데이터 설계서도 convert.go의 논리 ERD와 같은 처지다 — 사람이 손으로
 	// 채운 원본이며, --out을 입력과 같은 경로로 줘서 build가 그 위에 drawio
-	// XML을 덮어쓰면 잃은 뒤 되돌릴 길이 없다(IMPORTANT 리뷰 발견).
+	// XML을 덮어쓰면 잃은 뒤 되돌릴 길이 없다(리뷰에서 발견).
 	if err := guardNotOverwriting(inputPath, outPath); err != nil {
 		return BuildFileResult{}, err
 	}

@@ -32,9 +32,8 @@ type Result struct {
 	// 구조체에 실어 CLI까지 그대로 흘리는 것이 이 도구에 필요한 전부다.
 	//
 	// 2026-08-31 갱신: `Clean`은 이제 어떤 경로로도 이 필드에 쓰지 않는다
-	// — `convert.RewritePlan`이 페이지 단위로 주소되면서(`e48731d`)
-	// «충돌 id의 스타일 복원을 포기하고 경고한다»는 갈래(`b7bb131`이
-	// 없앴다) 자체가 무효가 됐다. 유일한 생산자는 위 `Annotate`의
+	// — `convert.RewritePlan`이 페이지 단위로 주소되면서
+	// «충돌 id의 스타일 복원을 포기하고 경고한다»는 갈래 자체가 없어졌다. 유일한 생산자는 위 `Annotate`의
 	// id 없는 페이지 건너뛰기다.
 	Warnings []string
 }
@@ -177,7 +176,7 @@ func Annotate(src []byte, doc model.Document, findings []validate.Finding) ([]by
 				// !perPage[i].WrappedByUs)에는 이 표를 절대 안 붙인다 —
 				// 우리가 만들지 않은 래퍼를 우리 것이라 지어내면, 진단이
 				// 사라질 때 그 래퍼(와 그 안의 사용자 속성)까지
-				// 벗겨서 지워버리게 된다(코드리뷰 [I2]).
+				// 벗겨서 지워버리게 된다(코드리뷰).
 				attrs[AttrWrapped] = "1"
 			}
 			pages[i].Edits[cellID] = convert.CellEdit{
@@ -198,13 +197,13 @@ func Annotate(src []byte, doc model.Document, findings []validate.Finding) ([]by
 	}
 
 	// 이번에 마크 대상이 아닌데 표식이 남은 셀은 되돌린다. 고쳐서 진단이
-	// 사라졌는데 빨간 테두리가 남아 있으면 그것도 거짓말이다. Clean(Task 13)이
+	// 사라졌는데 빨간 테두리가 남아 있으면 그것도 거짓말이다. Clean(작업 13)이
 	// «모든 마크된 셀»에 거는 것과 같은 되돌리기이므로 revertMarkEdit로
 	// 뺐다 — 갈라 두면 언젠가 한쪽만 고쳐 --clean이 조용히 진짜 역연산이
 	// 아니게 된다.
 	//
 	// perPage[i].Marked(erdtoolIssue)만 보지 않고 perPage[i].ResidueIDs()
-	// 전체를 본다 — 코드리뷰([중요 1])가 잡은 사고: 사람이 draw.io의
+	// 전체를 본다 — 코드리뷰가 잡은 사고: 사람이 draw.io의
 	// «데이터 편집» 창에서 erdtoolIssue 하나만 지우면 erdtoolBaseStyle·
 	// erdtoolWrapped는 남는데 perPage[i].Marked에는 안 잡힌다. 그러면 이
 	// 루프가 그 셀을 그냥 지나치고, 빨간 테두리와 잔여 속성이 다음 실행
@@ -235,12 +234,12 @@ func Annotate(src []byte, doc model.Document, findings []validate.Finding) ([]by
 	// (<mxCell id="0"></mxCell>)을 토큰 스트림에서 구별하지 못하므로,
 	// 재작성기를 한 번이라도 거치면 그 차이는 원리적으로 되돌릴 수
 	// 없다 — 이걸 억지로 되돌리려 한 첫 시도(정규식/스캐너 기반
-	// 정규화)가 오히려 새 결함을 낳았다(코드리뷰 [C2]). annotate가
+	// 정규화)가 오히려 새 결함을 낳았다(코드리뷰). annotate가
 	// 실제로 지켜야 하는 것은 "자기 표식을 하나도 안 남기고, 그 밖의
 	// 무엇도 바꾸지 않는다"이며, 그 기준은 원본 자체가 아니라
 	// convert.RewriteMxFilePlan(src, RewritePlan{})(순수 왕복 결과) —
 	// convert 자신이 이미 쓰고 있는 정규화 형태다. 두 패키지가 같은
-	// 입력에 다른 바이트 형태를 내면 둘을 잇는 Task 16이 매번 이
+	// 입력에 다른 바이트 형태를 내면 둘을 잇는 작업 16이 매번 이
 	// 차이에 걸린다.
 	res.Changed = !bytes.Equal(src, out)
 	return out, res, nil
@@ -254,12 +253,12 @@ func Annotate(src []byte, doc model.Document, findings []validate.Finding) ([]by
 // 버전이 마크한 셀이거나). 우리가 지어낸 적 없는 소유권을 근거로 남의
 // 래퍼(와 그 안의 남의 속성)를 지우지 않는다는 뜻이다.
 //
-// Style은 existing.BaseStyle에 **값이 실제로 있을 때만** 채운다(코드리뷰
-// [중요 2]). map의 콤마-ok 조회를 쓰는 이유: erdtoolBaseStyle이 없는
+// Style은 existing.BaseStyle에 **값이 실제로 있을 때만** 채운다(코드리뷰)
+// . map의 콤마-ok 조회를 쓰는 이유: erdtoolBaseStyle이 없는
 // 마크된 셀(사람이 손으로 erdtoolBaseStyle만 지운 경우)에서 존재하지 않는
 // 값을 ""로 읽어 CellEdit.Style에 넣으면, style="" 로 실제 모양을 지워
 // 버린다 — "저장된 원래 스타일이 빈 문자열이었다"와 "저장된 원래 스타일
-// 자체가 없다"는 서로 다른 사실이고(Task 12에서 value=""를 놓고 이미
+// 자체가 없다"는 서로 다른 사실이고(작업 12에서 value=""를 놓고 이미
 // 배운 것과 같은 구별), 후자에는 Style을 nil로 둬(CellEdit 주석의 "안
 // 바꾼다") 지금 스타일(빨간 테두리 포함)을 그대로 둔다 — 지어낸 빈
 // 스타일보다는 훨씬 낫다.
@@ -305,7 +304,7 @@ func revertMarkEdit(existing Existing, cellID string) convert.CellEdit {
 // 건너뛴다.
 //
 // 「지울 것」의 판정은 existing.Marked(erdtoolIssue) 하나만 보지 않고
-// existing.ResidueIDs()를 쓴다(코드리뷰 [중요 1]). draw.io의 «데이터
+// existing.ResidueIDs()를 쓴다(코드리뷰). draw.io의 «데이터
 // 편집» 창에서 erdtoolIssue 속성 하나만 지우는 것은 사람이 얼마든지 할 수
 // 있는 일이고, 그러면 erdtoolBaseStyle·erdtoolWrapped와 빨간 테두리
 // style은 그대로 남는데 existing.Marked는 비어 있다. 그 상태에서 옛
@@ -313,7 +312,7 @@ func revertMarkEdit(existing Existing, cellID string) convert.CellEdit {
 // «성공」을 보고하면서 실제로는 아무것도 안 지운다 — 이 저장소가 가장
 // 경계하는 실패 유형(조용히 틀린 성공)을 --clean 자신이 저지르는 셈이다.
 //
-// Result.Pages는 지운 요약 박스 수다(코드리뷰 [중요 3]). Marked만 보고
+// Result.Pages는 지운 요약 박스 수다(코드리뷰). Marked만 보고
 // 있으면 「요약 박스만 남고 마크된 셀은 하나도 없는」 파일에서
 // Marked=0인데 실제로는 파일이 바뀌는 경우를 사용자에게 「0개 되돌림」으로
 // 잘못 보고하게 된다.
@@ -329,7 +328,7 @@ func revertMarkEdit(existing Existing, cellID string) convert.CellEdit {
 // ResidueIDs()가 그 속성을 잔재로 세므로, 다음 --clean이 그것을 근거로
 // 스타일을 복원하고 속성을 지운다.
 //
-// 계약(스펙의 "멱등성·안전 계약" 절):
+// 계약(원장의 "멱등성·안전 계약" 절):
 //
 //	Clean(Annotate(x)) == convert.RewriteMxFilePlan(x, convert.RewritePlan{})
 //

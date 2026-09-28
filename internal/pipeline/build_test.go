@@ -62,7 +62,7 @@ func TestBuild_SecondRunReportsOverwritten(t *testing.T) {
 // build도 convert.go의 guardNotOverwriting과 같은 이유로 자기 입력을
 // 지키지 못하면 안 된다: 데이터 설계서는 사람이 손으로 채운 원본이고,
 // --out을 입력과 같은 경로로 주면(erdtool build 설계서.csv --out 설계서.csv)
-// 되돌릴 길 없이 drawio XML로 덮어써진다(IMPORTANT 리뷰 발견).
+// 되돌릴 길 없이 drawio XML로 덮어써진다(리뷰에서 발견).
 func TestBuild_RefusesToOverwriteInput(t *testing.T) {
 	dir := t.TempDir()
 	in := filepath.Join(dir, "설계서.csv")

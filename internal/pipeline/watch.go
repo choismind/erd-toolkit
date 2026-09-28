@@ -36,22 +36,22 @@ const (
 
 // Watch는 dir을 감시하다 .drawio 쓰기 이벤트가 발생하면 같은 Generate
 // 로직을 반복 호출한다("자동 트리거" — watch는 generate의 반복 호출 래퍼일
-// 뿐이라는 스펙 원칙). 각 처리 결과를 events로 보내며, stop이 닫히면
+// 뿐이라는 원장 원칙). 각 처리 결과를 events로 보내며, stop이 닫히면
 // 종료한다.
 //
-// 실패도 반드시 events로 나간다(I5). 예전에는 `if err == nil`로 성공만
+// 실패도 반드시 events로 나간다. 예전에는 `if err == nil`로 성공만
 // 흘려보내서, 사용자가 저장한 파일이 깨져 있어도 화면에 아무 것도 안 뜨고
 // 산출물만 조용히 그대로였다 — 왜 안 되는지 알 방법이 없었다. watcher
 // 자체의 에러도 같은 방식으로 SourceFile 없이 실어 보낸다.
 //
 // events는 Watch가 소유한다: 반환 직전에 반드시 close하므로 호출자는
 // `for r := range events`로 안전하게 소비하고 그 루프의 종료로 watch가
-// 끝났음을 안다(M9 잔여 — close를 안 해서 Ctrl+C 뒤에도 호출자의 range가
+// 끝났음을 안다(남은 결함 — close를 안 해서 Ctrl+C 뒤에도 호출자의 range가
 // 영원히 대기했다).
 //
 // 전송은 언제나 stop과 함께 select한다. events가 unbuffered이거나 소비자가
 // 느리면 전송에서 막히는데, 그 상태로는 stop을 영영 못 봐서 종료 요청이
-// 먹히지 않는다(M9 잔여).
+// 먹히지 않는다(남은 결함).
 func Watch(dir string, cfg config.Config, events chan<- FileResult, stop <-chan struct{}) error {
 	defer close(events)
 
@@ -116,7 +116,7 @@ func Watch(dir string, cfg config.Config, events chan<- FileResult, stop <-chan 
 				}
 			}
 			// 확장자 비교는 대소문자를 구분하지 않는다 — GenerateFolder와
-			// 같은 규칙이다(M12). 감시 중에만 .DRAWIO 파일이 무시되면 폴더
+			// 같은 규칙이다. 감시 중에만 .DRAWIO 파일이 무시되면 폴더
 			// 일괄 생성 결과와 watch 결과가 서로 달라진다.
 			if !strings.EqualFold(filepath.Ext(event.Name), ".drawio") {
 				continue

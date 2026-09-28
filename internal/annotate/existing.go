@@ -28,7 +28,7 @@ type Existing struct {
 // ResidueIDs는 erdtool 잔재가 하나라도 남은 셀 id 전부다.
 //
 // Marked(erdtoolIssue) 하나만으로 "지울 것이 있는가"를 판정하면 안
-// 된다(코드리뷰 [중요 1]). draw.io의 «데이터 편집» 창은 속성을 하나씩
+// 된다(코드리뷰). draw.io의 «데이터 편집» 창은 속성을 하나씩
 // 지울 수 있는 일반 UI라서, 사람이 erdtoolIssue만 지우고
 // erdtoolBaseStyle·erdtoolWrapped는 그대로 두는 것이 실제로 가능하다.
 // 그러면 Marked는 비었는데 셀은 여전히 원래 스타일을 잃은 채(erdtoolBaseStyle이
@@ -121,7 +121,7 @@ func scanGraphModel(graphModel []byte, out Existing) error {
 		// 무관하게 참이다 — 이 요소를 만난 것 자체가 증거다. 누가
 		// 감쌌는지(Wrapped 대 WrappedByUs)는 아래에서 따로 가린다.
 		out.Wrapped[id] = true
-		// 값이 빈 속성은 없는 것과 같이 다룬다. applyAttrs(Task 8)가 빈
+		// 값이 빈 속성은 없는 것과 같이 다룬다. applyAttrs(작업 8)가 빈
 		// 값을 아예 제거하므로 --clean 뒤에는 속성 자체가 없다 — 하지만
 		// 손편집 파일에는 erdtoolIssue=""가 남을 수 있고, 그것을
 		// "마크됨"으로 읽으면 저장된 적 없는 스타일을 복원하려 든다.

@@ -93,7 +93,7 @@ func TestLoadDiagrams_ObjectWrappedCellsFlattened(t *testing.T) {
 
 // TestRawCellReadsGeometry는 <mxCell>의 <mxGeometry> 자식이 RawCell.Geometry로
 // 읽히는지, 그리고 기하가 없는 셀(루트 id="0", 기본 부모 id="1")은 Geometry가
-// nil로 남는지 확인한다. Task 3의 bounding box 계산이 "기하 없음"과 "원점의
+// nil로 남는지 확인한다. 작업 3의 bounding box 계산이 "기하 없음"과 "원점의
 // 0크기 도형"을 구별해야 하므로 이 nil 대비가 핵심이다.
 func TestRawCellReadsGeometry(t *testing.T) {
 	p := filepath.Join(t.TempDir(), "g.drawio")

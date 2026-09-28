@@ -35,7 +35,7 @@ func TestExtractRelationships_TableDirectConnection(t *testing.T) {
 	// 에서 그대로 가져옴) + entityRelationEdgeStyle 엣지 1개, source/target이
 	// 행이 아니라 두 테이블의 셀 ID를 직접 가리킨다. 원본(Python) 구현은
 	// 이 케이스를 처리하지 못해 첫 관계에서 크래시하거나 이전 관계 값을
-	// 재사용했다(부록 B). 여기서는 ColumnLevel=false, 두 ColumnID 모두
+	// 재사용했다(원장). 여기서는 ColumnLevel=false, 두 ColumnID 모두
 	// 빈 문자열, 두 TableID 모두 채워진 상태로 정확히 기록되어야 한다.
 	if _, err := os.Stat("testdata/table_direct_relation.drawio"); err != nil {
 		t.Fatalf("fixture missing: %v", err)
@@ -70,7 +70,7 @@ func TestExtractRelationships_TableDirectConnection(t *testing.T) {
 }
 
 func TestExtractRelationships_BothEndsDangling(t *testing.T) {
-	// C2 회귀: 양쪽 다 존재하지 않는 id를 가리키는 엣지는 예전엔 continue로
+	// 회귀: 양쪽 다 존재하지 않는 id를 가리키는 엣지는 예전엔 continue로
 	// 완전히 버려져 findings가 0건이었다. 지금은 관계로 기록하되
 	// SourceResolved/TargetResolved가 둘 다 false여야 한다 — 검증 단계가 이
 	// 신호로 broken_reference를 잡는다.
@@ -101,7 +101,7 @@ func TestExtractRelationships_BothEndsDangling(t *testing.T) {
 }
 
 func TestExtractRelationships_OneEndDangling(t *testing.T) {
-	// C2 회귀: 한쪽만 존재하지 않는 id를 가리키는 엣지는 예전엔 조용히
+	// 회귀: 한쪽만 존재하지 않는 id를 가리키는 엣지는 예전엔 조용히
 	// append되긴 했지만 끊어진 쪽 필드가 전부 빈 문자열이라 검증기의
 	// `!= ""` 가드에 걸려 findings가 0건이었다. 지금은 정상 쪽은
 	// Resolved=true로, 끊어진 쪽은 Resolved=false + 원본 id 보존으로

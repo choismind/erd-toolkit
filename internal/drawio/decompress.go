@@ -48,7 +48,7 @@ func decompress(encoded string, limit int64) (string, error) {
 	if int64(len(out)) > limit {
 		return "", fmt.Errorf("decompressed diagram exceeds the %d byte limit (decompression bomb or corrupt file)", limit)
 	}
-	// QueryUnescape가 아니라 PathUnescape를 쓴다(M8): 둘의 유일한 차이는
+	// QueryUnescape가 아니라 PathUnescape를 쓴다: 둘의 유일한 차이는
 	// QueryUnescape가 "+"를 스페이스로 바꾼다는 점인데, 그 규칙은
 	// application/x-www-form-urlencoded 쿼리스트링에서만 유효하다. draw.io는
 	// encodeURIComponent를 쓰므로 리터럴 "+"는 %2B로 들어오고, URL 인코딩

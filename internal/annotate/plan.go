@@ -20,7 +20,7 @@ type PagePlan struct {
 
 // BuildPlans는 findings를 페이지별 계획으로 나눈다. XML도 파일도 건드리지
 // 않는 순수 함수다 — annotate 파이프라인에서 "무엇을 어디에 쓸지"만
-// 결정하고, 실제로 쓰는 일은 뒤 단계(Task 10, 12)가 한다.
+// 결정하고, 실제로 쓰는 일은 뒤 단계(작업 10, 12)가 한다.
 //
 // order는 페이지 등장 순서(diagram id)다. findings를 diagram id로 묶을 때
 // Go map을 그대로 순회해 결과를 만들면 같은 입력에도 실행마다 다른 바이트
@@ -101,7 +101,7 @@ func BuildPlans(findings []validate.Finding, order []string) []PagePlan {
 	for _, id := range order {
 		p := byPage[id]
 		if len(p.Summary) == 0 {
-			// 진단 없는 페이지엔 빈 PagePlan조차 만들지 않는다 — Task 12가
+			// 진단 없는 페이지엔 빈 PagePlan조차 만들지 않는다 — 작업 12가
 			// "계획이 있으면 요약 박스를 만든다"고 판단하므로, 빈 계획을
 			// 만들면 "이상 없음" 박스가 지어내듯 생겨버린다.
 			continue

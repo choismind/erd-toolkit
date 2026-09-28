@@ -29,7 +29,7 @@ func TestTableDocPDF_CreatesNonEmptyFile(t *testing.T) {
 }
 
 func TestTableDocPDF_AcceptsPageAsDomain(t *testing.T) {
-	// I6: PDF도 다른 포맷과 같은 page_as_domain 옵션을 받아야 한다. PDF는
+	// PDF도 다른 포맷과 같은 page_as_domain 옵션을 받아야 한다. PDF는
 	// 본문을 문자열로 검사할 수 없으므로, 두 모드가 서로 다른 내용을
 	// 만들어낸다는 것(= 옵션이 실제로 렌더링에 도달한다는 것)으로 검증한다.
 	dir := t.TempDir()

@@ -115,7 +115,7 @@ func TestScanExistingFindsUserObjectMarks(t *testing.T) {
 	}
 }
 
-// applyAttrs(Task 8)는 값이 빈 속성을 아예 제거한다 — 그래서 --clean이 끝난
+// applyAttrs(작업 8)는 값이 빈 속성을 아예 제거한다 — 그래서 --clean이 끝난
 // 파일은 erdtoolIssue가 «없는» 상태지, ""로 남지 않는다. 하지만 손으로
 // 편집한 파일에는 erdtoolIssue=""가 남을 수 있다. 그것을 "마크됨"으로
 // 잘못 읽으면 annotate가 저장된 적 없는 스타일을 복원하려 든다. 존재하되

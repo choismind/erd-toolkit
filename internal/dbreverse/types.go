@@ -34,7 +34,7 @@ type Table struct {
 	Columns []Column // Ordinal 오름차순
 }
 
-// Schema는 생성될 drawio 페이지 하나에 대응한다(스펙: 스키마 = 페이지).
+// Schema는 생성될 drawio 페이지 하나에 대응한다(원장: 스키마 = 페이지).
 type Schema struct {
 	Name        string
 	Tables      []Table      // 이름 오름차순

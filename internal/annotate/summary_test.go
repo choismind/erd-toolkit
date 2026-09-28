@@ -55,7 +55,7 @@ func TestSummaryCellWithNoGeometry(t *testing.T) {
 	}
 }
 
-// SummaryCellID는 정확히 이 형태여야 한다 — Task 12가 «이전 실행의 박스»를
+// SummaryCellID는 정확히 이 형태여야 한다 — 작업 12가 «이전 실행의 박스»를
 // 이 id로 찾아 지운다. 타임스탬프나 uuid를 섞으면 실행마다 id가 달라져
 // 옛 박스를 못 찾고, 지우는 대신 매번 새 박스가 쌓인다.
 func TestSummaryCellIDIsPinnedLiteral(t *testing.T) {
@@ -103,7 +103,7 @@ func TestSummaryCellReuseWinsOverComputedPosition(t *testing.T) {
 }
 
 // summaryValue는 이스케이프하지 않는다 — XML 인코딩은
-// convert.encodeNewCell(Task 6)이 책임진다. 여기서 또 이스케이프하면
+// convert.encodeNewCell(작업 6)이 책임진다. 여기서 또 이스케이프하면
 // &amp;lt; 처럼 이중으로 걸린 텍스트가 사용자 눈에 보인다. 실제
 // RewriteMxFilePlan을 한 번 태워서 <, &, "가 문자 그대로 살아 돌아오는지
 // 본다 — 이 테스트가 미래의 «잘 몰라서 고친» 이스케이프 추가를 막는
@@ -196,7 +196,7 @@ func TestSummaryCellReusesExistingParent(t *testing.T) {
 // 그 상태이고(레이어를 지웠다 다시 만든 파일에서 생긴다), 재사용 경로가
 // 그것을 통과시키면 존재하지 않는 셀을 부모로 가리키는 박스가 나간다 —
 // erdtool은 「페이지 N개 요약」이라고 성공을 보고하는데 draw.io로 열면
-// 그 박스가 없다. 고치려던 결함(코드리뷰 [I5])을 재사용 경로로 재현하는
+// 그 박스가 없다. 고치려던 결함(코드리뷰)을 재사용 경로로 재현하는
 // 것이라 좌표만 존중하고 부모는 살아 있는 것으로 물러난다.
 func TestSummaryCellDoesNotReuseDanglingParent(t *testing.T) {
 	cells := []drawio.RawCell{

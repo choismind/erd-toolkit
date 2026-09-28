@@ -23,7 +23,7 @@ func hasKeyPrefix(key, prefix string) bool {
 
 // IsPrimaryKey는 이 컬럼이 기본키 구성 컬럼인지 판정한다. 판정 로직이
 // tables.go/required.go/sql.go 세 곳에 각기 다른 대소문자 규칙으로 복제되어
-// 있던 것을 이 한 곳으로 통합했다(M1) — 같은 다이어그램을 두고 검증
+// 있던 것을 이 한 곳으로 통합했다 — 같은 다이어그램을 두고 검증
 // 리포트는 "PK 없음"이라 하고 SQL DDL은 PRIMARY KEY를 뽑는 식의 불일치를
 // 구조적으로 막는다.
 func (c Column) IsPrimaryKey() bool { return hasKeyPrefix(c.Key, "PK") }

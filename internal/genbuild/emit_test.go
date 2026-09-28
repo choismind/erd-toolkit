@@ -114,7 +114,7 @@ func TestBuild_RoundTripsThroughRealParser(t *testing.T) {
 
 // twoPagesWithSameNames는 두 페이지가 테이블명·컬럼명을 그대로 복제한
 // 경우다(사람이 탭을 복사해서 만들 때 흔하다). 이름이 같아도 emit이 만드는
-// id는 페이지마다 달라야 한다 — CRITICAL 리뷰 발견: 접두 없이는 두 페이지가
+// id는 페이지마다 달라야 한다 — 리뷰에서 발견한 치명적 결함: 접두 없이는 두 페이지가
 // 똑같이 t0/t0_r0/t0_r0d/e0를 써서 internal/convert.File이 "셀 id가
 // 페이지 사이에서 겹친다"며 build 산출물 전체를 거부했다.
 func twoPagesWithSameNames() []PageDef {

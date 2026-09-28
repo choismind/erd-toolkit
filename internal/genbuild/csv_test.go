@@ -28,7 +28,7 @@ func TestParseCSV_SinglePage(t *testing.T) {
 // 엑셀의 "CSV UTF-8(쉼표로 분리)" 내보내기는 파일 맨 앞에 BOM(EF BB BF)을
 // 붙인다. 벗겨내지 않으면 첫 헤더 셀이 "테이블명"과 바이트 단위로 달라져
 // checkHeader가 거부한다 — 사용자는 헤더를 제대로 썼는데도 "헤더가
-// 틀렸다"는 오해를 사는 에러를 본다(IMPORTANT 리뷰 발견).
+// 틀렸다"는 오해를 사는 에러를 본다(리뷰에서 발견).
 func TestParseCSV_StripsUTF8BOM(t *testing.T) {
 	withBOM := append([]byte("\xef\xbb\xbf"), []byte(validCSV)...)
 	pages, err := ParseCSV("주문정보", withBOM)

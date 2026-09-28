@@ -79,7 +79,7 @@ func normalizeWords(s string) string {
 	return strings.ToUpper(strings.Join(strings.Fields(s), " "))
 }
 
-// Optional은 스펙의 옵션 검사 2종을 페이지별 활성화 여부(config.EffectiveValidation)에 따라 수행한다.
+// Optional은 원장의 옵션 검사 2종을 페이지별 활성화 여부(config.EffectiveValidation)에 따라 수행한다.
 func Optional(doc model.Document, cfg config.Config) []Finding {
 	var findings []Finding
 

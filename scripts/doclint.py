@@ -47,7 +47,7 @@ BANNED = {
     "표·행·셀": "「테이블·행·셀」",
 }
 
-# 은어와 «풀어 쓴 IT 용어». 소유자가 여러 세션에 걸쳐 되풀이해 지적한 것들이라
+# 은어와 «풀어 쓴 IT 용어». 문서를 검토할 때마다 되풀이해 나온 것들이라
 # 규칙으로 적어 두는 것만으로는 안 잡혔다. 코드블록 안(저장소 주석 인용)은
 # 위 루프가 이미 건너뛰므로 실물과 어긋날 걱정은 없다. 오탐을 피하려고
 # 어형이 하나뿐인 낱말만 넣는다.
@@ -69,7 +69,7 @@ JARGON = {
 # 증거와 대조하지 않고 쓰기 쉬운 단정. 지우라는 게 아니라, 바로 아래 증거와
 # 한 줄씩 맞춰 봤는지 묻는 것이다. **git이 «새로 쓴 줄»이라 말한 줄에만
 # 적용한다** — 이미 검토를 마친 문장에 매번 다시 뜨면 그게 곧 전수 검사가
-# 되고, 아무도 안 읽게 된다. git 밖의 파일(Obsidian 볼트)에서는 아예 끈다.
+# 되고, 아무도 안 읽게 된다. 저장소 밖의 파일에서는 아예 끈다.
 ABSOLUTE = re.compile(r"통째로|하나도|빠짐없이|잘라내거나|전부 그대로|예외 없이")
 
 # 용어 규칙을 «설명하는» 줄에는 금지 용어가 나올 수밖에 없다. 그 줄 끝에
@@ -128,12 +128,37 @@ def missing_ref(token: str, doc: Path) -> bool:
     return not (repo_root() / token).exists()
 
 
+def record_dirs() -> list[str]:
+    """용어 규칙에서 뺄 기록 폴더를 `.git/info/doclint-records`에서 읽는다.
+
+    커밋되지 않는 자리라 기계마다 따로 둔다. 한 줄에 폴더 하나이고 `#`로
+    시작하는 줄은 건너뛴다. 파일이 없으면 뺄 것이 없다.
+    """
+    p = repo_root() / ".git" / "info" / "doclint-records"
+    if not p.is_file():
+        return []
+    out = []
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip().strip("/")
+        if line and not line.startswith("#"):
+            out.append(line)
+    return out
+
+
+def is_record(path: Path) -> bool:
+    try:
+        rel = path.resolve().relative_to(repo_root()).as_posix()
+    except ValueError:
+        return False
+    return any(rel == d or rel.startswith(d + "/") for d in record_dirs())
+
+
 def check(path: Path, style: bool, added: set[int] | None = None,
           added_only: bool = False) -> list[str]:
     # 원장은 «그때 그렇게 판단했다»는 기록이다. 지난 항목의 낱말을 지금
     # 용어로 고쳐 쓰는 것은 기록을 손대는 것이므로 용어 규칙에서 뺀다.
     # 도메인 검사(스타일 토큰·화살표·파일 참조)는 그대로 적용한다.
-    ledger = "ledger" in path.as_posix().lower()
+    ledger = is_record(path)
     out: list[str] = []
     in_fence = False
     for no, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
@@ -230,7 +255,7 @@ def changed_docs() -> list[Path]:
 def hook() -> int:
     """PostToolUse 훅. stdin의 JSON에서 파일 하나를 꺼내 그것만 본다.
 
-    위반이 있으면 종료 코드 2로 stderr에 낸다 — Claude에게 되돌아가는
+    위반이 있으면 종료 코드 2로 stderr에 낸다 — 훅을 부른 쪽에 되돌아가는
     경로다. 사용자의 편집을 막지는 않는다.
     """
     import json

@@ -65,7 +65,7 @@ func TestParseTableBlock_RejectsBadBoolean(t *testing.T) {
 // 공백이 든 컬럼명은 emit.go columnValue가 공백으로 이어 붙이고
 // internal/drawio/tables.go parseColumnValue가 «첫 낱말»을 이름으로 읽으므로,
 // 이름 자체에 공백이 있으면 round trip에서 이름·타입 경계가 조용히
-// 어긋난다(IMPORTANT 리뷰 발견). 로드 시점에 크게 거부한다.
+// 어긋난다(리뷰에서 발견). 로드 시점에 크게 거부한다.
 func TestParseTableBlock_RejectsSpaceInColumnName(t *testing.T) {
 	rows := [][]string{
 		{"테이블명", "순번", "컬럼명", "컬럼유형", "색인여부", "널허용", "단일값"},

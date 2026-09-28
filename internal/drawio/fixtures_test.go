@@ -18,14 +18,14 @@ const (
 	tableLevelRelationsColCount   = 8
 	// table_level_relations.drawio ("ERD_기본도형")의 entityRelationEdgeStyle
 	// 엣지 16개는 draw.io ER 도형 라이브러리 참고 페이지의 장식용 화살표라
-	// source/target 속성 자체가 없다(Task 10 재조사로 확인, 부록 B 정정).
+	// source/target 속성 자체가 없다(작업 10 재조사로 확인, 원장 정정).
 	// 따라서 ExtractRelationships가 해석 가능한 관계는 0개다.
 	tableLevelRelationsRelCount = 0
 
 	rowspanExampleTableCount  = 1
 	rowspanExampleColumnCount = 4
 
-	irregularRowsTableCount = 2 // 마지막 행 근처 구조가 불규칙 (Task 8에서 방어)
+	irregularRowsTableCount = 2 // 마지막 행 근처 구조가 불규칙 (작업 8에서 방어)
 
 	outOfOrderCellsTableCount = 6 // 테이블 셀 바로 다음이 tableRow가 아닌 실제 사례
 )

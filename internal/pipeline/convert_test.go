@@ -162,7 +162,7 @@ func TestConvertFolder_ConvertsAll(t *testing.T) {
 	}
 }
 
-// TestConvertFolder_SkipsPhysicalOutputs는 R4 계약을 검사한다: 출력이 입력
+// TestConvertFolder_SkipsPhysicalOutputs는 건너뛰기 계약을 검사한다: 출력이 입력
 // 옆에 놓이므로, 같은 폴더에 두 번 돌리면 1회차 산출물(X.physical.drawio)이
 // 2회차 입력이 되어 X.physical.physical.drawio가 생길 수 있다.
 // ConvertFolder는 폴더를 읽을 때 그런 파일을 건너뛴다.
@@ -274,7 +274,7 @@ func quotedInner(s string) string {
 // TestConvert_SignalsOverwrite는 «이미 있던 물리 파일을 대체했다»는 사실이
 // 호출자에게 전달되는지 본다.
 //
-// 스펙 결정 5는 convert를 별도 서브커맨드로 둔 이유를 "중간 산출물(물리
+// 원장 결정 5는 convert를 별도 서브커맨드로 둔 이유를 "중간 산출물(물리
 // ERD)을 사람이 검수·수정한 다음 리포트를 만들 수 있어야" 한다고 했다.
 // 재실행이 그 손댄 파일을 아무 신호 없이 덮어쓰면 그 흐름이 조용히 깨진다.
 // logicalName은 이름만 지켜준다 — 레이아웃·손으로 더한 컬럼·메모는 아니다.
@@ -309,7 +309,7 @@ func TestConvert_SignalsOverwrite(t *testing.T) {
 }
 
 // TestConvertFolder_SignalsOverwrite는 같은 신호가 폴더 경로에서도 나오는지
-// 본다. 단일 파일과 폴더가 같은 사실을 다르게 보고하면 안 된다(R8).
+// 본다. 단일 파일과 폴더가 같은 사실을 다르게 보고하면 안 된다.
 func TestConvertFolder_SignalsOverwrite(t *testing.T) {
 	dir := t.TempDir()
 	dict := writeDict(t, dir)
@@ -329,7 +329,7 @@ func TestConvertFolder_SignalsOverwrite(t *testing.T) {
 		t.Fatal("1회차는 새로 만든 것이다 — Overwritten=false여야 한다")
 	}
 
-	// 2회차: ConvertFolder는 *.physical.drawio를 입력에서 건너뛰지만(R4)
+	// 2회차: ConvertFolder는 *.physical.drawio를 입력에서 건너뛰지만
 	// 원본 주문.drawio는 그대로 다시 변환하므로 산출물을 대체한다.
 	second, err := ConvertFolder(dir, config.Config{}, dict, "")
 	if err != nil {

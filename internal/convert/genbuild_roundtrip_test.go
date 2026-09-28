@@ -9,19 +9,19 @@ import (
 )
 
 // TestFile_AcceptsMultiPageGenbuildOutput은 build->convert 흐름 전체를
-// 재현한다(스펙의 headline 플로우: "이름 변환이 필요하면 convert를 이어서
+// 재현한다(원장의 headline 플로우: "이름 변환이 필요하면 convert를 이어서
 // 돌린다"). genbuild.Build가 만든 여러 페이지짜리 산출물을 실제로
 // convert.File에 먹여서, 페이지 사이 셀 id 겹침으로 거부되지 않는지
 // 확인한다.
 //
-// CRITICAL 리뷰 발견: emitPage가 페이지마다 t0/t0_r0/t0_r0d/e0를 처음부터
+// 리뷰에서 발견한 치명적 결함: emitPage가 페이지마다 t0/t0_r0/t0_r0d/e0를 처음부터
 // 다시 매기던 시절에는, 두 페이지가 있는 build 산출물을 convert.File에
 // 넣으면 "셀 id가 페이지 사이에서 겹친다"는 하드 에러로 거부됐다 — build의
 // 산출물을 convert가 받아들이지 못하는 것은 이 툴체인의 존재 이유(설계서 ->
 // drawio -> (선택) 이름 변환 -> generate)를 정면으로 어긴다.
 //
-// 2026-08-31 갱신: convert.RewritePlan이 페이지 단위로 주소되면서(e48731d)
-// 그 하드 에러 자체가 없어졌다(4228280) — 이 테스트는 이제 그 이유로는
+// 2026-08-31 갱신: convert.RewritePlan이 페이지 단위로 주소되면서
+// 그 하드 에러 자체가 없어졌다 — 이 테스트는 이제 그 이유로는
 // 실패할 수 없다. 그렇다고 회귀 방어가 사라진 것은 아니다. genbuild가
 // 다시 페이지마다 id를 0부터 매기는 버그로 돌아가더라도
 // TestBuild_CellIDsAreUniqueAcrossPages(internal/genbuild/emit_test.go)가

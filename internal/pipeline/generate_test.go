@@ -19,7 +19,7 @@ func TestGenerate_SingleFile_ProducesAllRequiredOutputs(t *testing.T) {
 	}
 
 	outDir := filepath.Join(tmp, "relationship_logical_report")
-	// 스펙: 테이블정의서는 MD/HTML/PDF/xlsx 네 포맷 전부가 필수 산출물이다.
+	// 원장: 테이블정의서는 MD/HTML/PDF/xlsx 네 포맷 전부가 필수 산출물이다.
 	for _, want := range []string{
 		"table_doc.md", "table_doc.html", "table_doc.pdf", "table_doc.xlsx",
 		"validation_report.md", "ir.json",
@@ -92,7 +92,7 @@ func copyFile(t *testing.T, src, dst string) {
 }
 
 func TestGenerateFolder_MatchesExtensionCaseInsensitively(t *testing.T) {
-	// M12: filepath.Glob("*.drawio")는 대소문자를 구분한다. Linux/macOS에서
+	// filepath.Glob("*.drawio")는 대소문자를 구분한다. Linux/macOS에서
 	// ".DRAWIO"/".Drawio"로 저장된 파일이 조용히 통째로 건너뛰어진다 —
 	// 에러도 경고도 없이 산출물만 안 나온다.
 	tmp := t.TempDir()
@@ -143,7 +143,7 @@ func TestGenerateFolder_IgnoresSubdirectories(t *testing.T) {
 }
 
 func TestGenerateFolder_RecursiveOnlyWhenAsked(t *testing.T) {
-	// I9: 기본은 비재귀다(사용자 결정). 큰 트리를 잘못 지정했을 때 조용히
+	// 기본은 비재귀다(사용자 결정). 큰 트리를 잘못 지정했을 때 조용히
 	// 오래 도는 쪽보다, 필요할 때만 켜는 쪽이 사고가 없다.
 	tmp := t.TempDir()
 	sub := filepath.Join(tmp, "sub", "deeper")

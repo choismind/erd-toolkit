@@ -134,7 +134,7 @@ func unresolvableError(arg string, conns Connections, isDir bool) error {
 		known = "설정에 있는 접속 이름: " + strings.Join(names, ", ")
 	}
 	return fmt.Errorf(
-		"%q를 접속 대상으로 풀 수 없다 (스킴이 없고, %s. SQLite 파일 경로로 봤지만 %s). %s",
+		"접속 대상으로 풀 수 없다: %q (스킴이 없고, %s. SQLite 파일 경로로 봤지만 %s). %s",
 		arg, known, what, "DSN을 직접 주거나 --connections로 설정 파일을 지정한다")
 }
 

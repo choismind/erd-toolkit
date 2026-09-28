@@ -126,7 +126,7 @@ func die(err error) {
 // resolveConfig는 이번 실행에 쓸 설정을 정한다. --config를 명시했으면 그것만
 // 쓰고 자동탐색은 아예 하지 않는다 — 옆에 놓인 erdtool.yaml이 조용히 끼어들면
 // "왜 내가 준 설정이 안 먹지"가 된다. 명시가 없을 때만 대상 폴더에서
-// erdtool.yaml을 찾는다(I9). 설정이 없는 것은 에러가 아니다.
+// erdtool.yaml을 찾는다. 설정이 없는 것은 에러가 아니다.
 //
 // 두 번째 반환값은 «실제로 쓰인 설정 파일 경로»다. 자동으로 읽힌 설정이
 // 화면에 안 보이면 사용자는 산출물이 왜 달라졌는지 알 수 없다.
@@ -191,7 +191,7 @@ func runGenerate(args []string) {
 		fmt.Printf("using config %s\n", usedConfig)
 	}
 
-	// CLI 플래그는 그 실행 1회에 한해 설정 파일 값을 덮어쓴다(스펙: 설정 파일과
+	// CLI 플래그는 그 실행 1회에 한해 설정 파일 값을 덮어쓴다(원장: 설정 파일과
 	// CLI). 플래그가 켜져 있으면 무조건 켠다 — 끄는 플래그는 없다(옵션 산출물은
 	// 기본이 꺼짐이므로 "켜는" 방향만 필요).
 	if wantRelations {
@@ -293,7 +293,7 @@ func runWatch(args []string) {
 			fmt.Fprintf(os.Stderr, "[WATCH ERROR] %v\n", r.Err)
 			failed = true
 		case r.Err != nil:
-			// I5: 저장한 파일이 잘못됐다는 걸 반드시 보여준다. 감시는
+			// 저장한 파일이 잘못됐다는 걸 반드시 보여준다. 감시는
 			// 계속한다 — 사용자가 고쳐서 다시 저장하면 그때 성공한다.
 			fmt.Fprintf(os.Stderr, "[FAILED] %s: %v\n", r.SourceFile, r.Err)
 			failed = true
@@ -329,7 +329,7 @@ func printFolderResults(out, errOut io.Writer, results []pipeline.FileResult) bo
 }
 
 // resolveDictionary는 이번 실행에 쓸 사전을 정한다. --dictionary를 명시했으면
-// 그것만 쓰고 자동탐색은 아예 하지 않는다(설정 파일과 같은 규칙, I9).
+// 그것만 쓰고 자동탐색은 아예 하지 않는다(설정 파일과 같은 규칙).
 //
 // 셋 다 없으면 에러다. 사전 없이 돌리면 전부 미매칭이라 원본 복사본이
 // 나오는데, 그걸 조용히 성공으로 보고하면 안 된다.
@@ -378,12 +378,12 @@ func printDryRun(w io.Writer, stats convert.Stats) {
 //
 // 단일 파일 경로(runConvert)도 결과 하나짜리 슬라이스로 이 함수를 불러
 // 같은 문구를 낸다 — 폴더와 단일 파일이 같은 정보를 다르게 찍으면
-// 사용자가 두 형식을 배워야 한다(R8). [OVERWRITTEN]도 같은 이유로 두
+// 사용자가 두 형식을 배워야 한다. [OVERWRITTEN]도 같은 이유로 두
 // 경로에 함께 적용된다.
 //
 // target은 이 배치가 무엇을 겨냥했는지(파일 또는 폴더 경로)다. results가
 // 빈 경우에만 쓴다 — ConvertFolder는 이미 변환된 산출물(*.physical.drawio)을
-// 건너뛰므로(R4), 같은 폴더에 두 번째로 돌리면 results가 통째로 빈 채
+// 건너뛰므로, 같은 폴더에 두 번째로 돌리면 results가 통째로 빈 채
 // 돌아온다. 그때 아무것도 안 찍고 조용히 끝나면 스크립트에게는 성공과
 // 구별되지 않는다 — 실패가 아니므로(failed=false) 종료 코드는 0을 유지한
 // 채 한 줄만 알린다.
@@ -399,7 +399,7 @@ func printConvertResults(out, errOut io.Writer, target string, results []pipelin
 			failed = true
 			continue
 		}
-		// [CONVERTED]와 [OVERWRITTEN]을 가른다. 스펙 결정 5는 물리 ERD를
+		// [CONVERTED]와 [OVERWRITTEN]을 가른다. 원장 결정 5는 물리 ERD를
 		// «사람이 검수·수정한 다음» 리포트를 만드는 흐름을 전제하는데,
 		// convert를 다시 돌리면 그 손댄 파일이 대체된다. logicalName이
 		// 지켜주는 것은 이름뿐이고 레이아웃·추가한 컬럼·메모는 아니다.
@@ -467,7 +467,7 @@ func runConvert(args []string) {
 
 	st, err := os.Stat(target)
 	if err != nil {
-		// runGenerate와 같은 관용구(main.go:91) — "cannot access %s"가 없으면
+		// runGenerate와 같은 관용구다 — "cannot access %s"가 없으면
 		// 플래그 값을 대상 경로로 잘못 받았을 때(예: 대상을 빼먹어 target이
 		// "--dry-run" 자체가 됨) 이 에러만 보고는 무엇이 잘못됐는지 알 수 없다.
 		fmt.Fprintf(os.Stderr, "cannot access %s: %v\n", target, err)

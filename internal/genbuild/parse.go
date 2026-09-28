@@ -41,7 +41,7 @@ type tableRow struct {
 
 // parseTableBlock은 테이블 목록 블록(헤더 포함)을 TableDef 슬라이스로
 // 바꾼다. 테이블은 시트에 처음 등장한 순서를 유지하고, 각 테이블 안의
-// 컬럼은 순번 오름차순으로 정렬한다(스펙: "순번 오름차순으로 컬럼 순서를
+// 컬럼은 순번 오름차순으로 정렬한다(원장: "순번 오름차순으로 컬럼 순서를
 // 정한다 — 표에 등장하는 순서에 기대지 않는다").
 func parseTableBlock(rows [][]string) ([]TableDef, error) {
 	if len(rows) == 0 {
@@ -72,7 +72,7 @@ func parseTableBlock(rows [][]string) ([]TableDef, error) {
 		if err := rejectEmbeddedSpace(colName, fmt.Sprintf("테이블 목록 %d행(테이블 %q) 컬럼명", i+2, name)); err != nil {
 			return nil, err
 		}
-		// 컬럼유형의 공백 금지는 걷었다(Phase 2b Task 2). drawio.parseColumnValue가
+		// 컬럼유형의 공백 금지는 걷었다(Phase 2b 작업 2). drawio.parseColumnValue가
 		// 오른쪽 기준으로 읽으므로 `timestamp with time zone` 같은 실제 DB 타입이
 		// 왕복에서 살아남는다. 컬럼명은 여전히 첫 낱말로 잘리므로 금지가 남는다.
 		dupKey := name + "\x00" + colName
@@ -162,7 +162,7 @@ func splitBlocks(rows [][]string) (tableRows, relationRows [][]string, err error
 
 // parseRelationBlock은 관계 목록 블록(헤더 포함)을 RelationDef 슬라이스로
 // 바꾼다. 여기서는 카디널리티 코드 유효성과 컬럼 필수 여부만 검사한다 —
-// 테이블/컬럼이 실제로 존재하는지는 validatePage(Task 4)가 다른 블록과
+// 테이블/컬럼이 실제로 존재하는지는 validatePage(작업 4)가 다른 블록과
 // 대조해서 검사한다.
 func parseRelationBlock(rows [][]string) ([]RelationDef, error) {
 	if len(rows) == 0 {

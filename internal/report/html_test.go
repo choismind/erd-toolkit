@@ -16,7 +16,7 @@ func TestTableDocHTML(t *testing.T) {
 }
 
 func TestTableDocHTML_ShowsPageName(t *testing.T) {
-	// I6: page_as_domain이 TableDocMarkdown에만 적용되고 HTML/PDF/xlsx는
+	// page_as_domain이 TableDocMarkdown에만 적용되고 HTML/PDF/xlsx는
 	// 페이지명을 아예 안 보여줬다 — 같은 실행에서 나온 네 산출물이 서로
 	// 다른 내용을 담고 있었다.
 	plain := TableDocHTML(sampleDoc(), Options{})

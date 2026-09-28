@@ -60,7 +60,7 @@ type Finding struct {
 	CellID string `json:"cell_id,omitempty"`
 }
 
-// Required는 스펙 "검증 리포트"의 필수 검사 4종 + 정보성 안내를 수행한다.
+// Required는 원장 "검증 리포트"의 필수 검사 4종 + 정보성 안내를 수행한다.
 func Required(doc model.Document, dups []ir.DuplicateNameWarning) []Finding {
 	var findings []Finding
 

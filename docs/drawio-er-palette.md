@@ -1,13 +1,13 @@
 # draw.io "Entity Relation" 도형 라이브러리 전수 (v31.1.5 실측)
 
-Phase 1b(Chen 표기법 파싱) 설계의 «사실 근거» 문서다. 총칭이 아니라 실제
-스타일 문자열을 담는다 — 작업 기록이 예전에 "스펙 문서의 허용 도형 세트 절
+Chen 표기법 파싱을 검토할 때 만든 «사실 근거» 문서다. 총칭이 아니라 실제
+스타일 문자열을 담는다 — 원장이 예전에 "허용 도형 세트 절
 참고"라고 가리켰지만 그 절에는 도형 목록이 없어 헛걸음을 만들었다.
 
 ## 추출 방법 (재현 가능)
 
-설치된 draw.io Desktop의 앱 리소스에서 직접 뽑았다. 문서를 옮겨적은 것이
-아니라 프로그램이 읽는 원본이다(프로젝트 원칙 3번).
+설치된 draw.io Desktop의 앱 리소스에서 직접 뽑았다. 문서를 옮겨 적은 것이
+아니라 프로그램이 읽는 원본이다(README 「설계 원칙」 3번).
 
 ```
 C:\Program Files\draw.io\resources\app.asar   (v31.1.5, 오프셋 ~47.7MB 부근)
@@ -39,8 +39,8 @@ C:\Program Files\draw.io\resources\app.asar   (v31.1.5, 오프셋 ~47.7MB 부근
 > [!warning] 이 문서가 한동안 "45개"라고 적어 둔 이유
 > 첫 추출이 `addEntry`와 `create*TemplateEntry`만 읽고 **`addDataEntry`를
 > 빼먹었다**(16 + 29 = 45). 빠진 5개가 하필 Table 1·2와 Table Row 1~3 —
-> erdtool이 다루는 관계형 테이블의 원형이다. 당시의 작업 기록과 Phase 1a
-> 설계서가 적어 둔 **"총 50개"가 맞았고**, 그것을 틀렸다고 적은 이쪽이
+> erdtool이 다루는 관계형 테이블의 원형이다. 원장이 적어 둔
+> **"총 50개"가 맞았고**, 그것을 틀렸다고 적은 이쪽이
 > 틀렸었다. `chen` 20개와 C계열 16개는 영향 없다.
 
 ## 50개 중 코드로 식별되는 것은 몇 개인가 (2026-09-03 실측)
@@ -77,7 +77,7 @@ erdtool의 `ClassifyShape`(`internal/drawio/classify_shapes.go`)에 항목의
 | Entity (Rounded) | `rounded=1;arcSize=10;whiteSpace=wrap;html=1;align=center;` | **불가** |
 | Weak Entity | `shape=ext;margin=3;double=1;whiteSpace=wrap;html=1;align=center;` | 가능 (`shape=ext`+`double=1`) |
 | Attribute | `ellipse;whiteSpace=wrap;html=1;align=center;` | **불가** |
-| Key Attribute | `ellipse;...;fontStyle=4;` | **불가** (굵게일 뿐) |
+| Key Attribute | `ellipse;...;fontStyle=4;` | **불가** (밑줄일 뿐) |
 | Weak Key Attribute | `ellipse;...;fontStyle=20;` | **불가** |
 | Derived Attribute | `ellipse;...;dashed=1;` | **불가** |
 | Multivalue Attribute | `ellipse;shape=doubleEllipse;margin=3;...` | 가능 (`shape=doubleEllipse`) |
@@ -110,12 +110,12 @@ Phase 1a의 `entityRelationEdgeStyle` + `endArrow=ERone` 방식과 완전히 다
   childLayout=tableLayout;...`), **Table Row 1~3**(제목 없는 `shape=table` +
   안쪽 행). 압축 XML로 등록되어 있어 스타일 문자열 grep에 안 잡힌다.
   실제 ERD 테이블은 `shape=table` + `shape=tableRow` + `shape=partialRectangle`
-  3단 구조(스펙 문서 "허용 도형 세트" 참고).
+  3단 구조(원장 "허용 도형 세트" 참고).
 - **C(카디널리티 엣지)**: `edgeStyle=entityRelationEdgeStyle` 16종 —
   아래 "C 계열 전수" 절에 목록이 있다.
 - **D(기타)**: Entity(`whiteSpace=wrap;html=1;align=center;` — 평범한 사각형,
   chen 태그 **없음**), Cloud(`ellipse;shape=cloud;`), Note(`shape=note;size=20;`),
-  Hierarchy(chen 태그 없음 — 스펙 문서에 별도 분석 있음).
+  Hierarchy(chen 태그 없음 — 원장에 별도 분석 있음).
 
 ## C 계열 전수 — 카디널리티 엣지 16종 (2026-08-27 실측)
 
@@ -153,23 +153,22 @@ Phase 2b(DB 역공학) 설계 중에 뽑았다. 추출 위치는 `app.asar` 오�
 `ERzeroToMany`는 "Many **Optional**", `ERoneToMany`는 "Many **Mandatory**"다.
 즉 둘의 차이는 개수가 아니라 **참여 필수성**이며, `ERoneToMany`는 「부모에게
 자식이 반드시 하나 이상 있다」는 주장이다. 표준 SQL에는 그것을 선언할 문법이
-없으므로 스키마만 읽는 역공학은 그 코드를 쓸 수 없다(Phase 2b 스펙 "카디널리티"
+없으므로 스키마만 읽는 역공학은 그 코드를 쓸 수 없다(원장 "카디널리티"
 절 참고).
 
-## Phase 1b 설계에 직결되는 사실
+## Chen 표기 파싱에 직결되는 사실
 
 1. **Chen 도형 10개 중 5개는 스타일만으로 식별할 수 없다.** Entity(Rounded)는
-   그냥 둥근 사각형이고, Attribute 4종은 전부 `ellipse`에 굵게/점선/폰트만
+   그냥 둥근 사각형이고, Attribute 4종은 전부 `ellipse`에 밑줄/점선/폰트만
    다르다. 아무 다이어그램에나 있는 평범한 도형과 구분이 안 된다 —
    **스타일 매칭만으로 Chen 파서를 만들 수 없다.** 연결 구조(타원이 마름모에
    붙어 있다 등)를 함께 봐야 한다.
 2. **`ellipse`와 `rounded=1`은 값 없는 토큰이다.** `ParseStyle`은 이런 토큰을
    `key: ""`로 담으므로(`internal/drawio/style.go`), 판정은 «키 존재 여부»로
    해야 한다 — `style["ellipse"] == "ellipse"` 같은 비교는 성립하지 않는다.
-   프로젝트 원칙 1번(부분 문자열 금지, 정확 비교)은 그대로 유효하다.
+   README 「설계 원칙」 1번(부분 문자열 금지, 정확 비교)은 그대로 유효하다.
 3. **Chen 관계선에는 고유 스타일이 사실상 없다.** `endArrow=none`은 아무
    선에나 붙는다. 카디널리티는 엣지의 «라벨 텍스트»에서 읽어야 한다.
 4. 위 세 가지 때문에 **"이 페이지가 Chen 다이어그램인가"를 도형 하나로 판정할
-   수 없다.** 페이지 전체의 구조를 보고 판정해야 하며, 이것이 작업 기록의
-   **I3** 항목(현재의 conceptual 판별 기준이 "파서가 모르는 도형이 많다"에
-   불과하다는 문제)와 정면으로 얽힌다.
+   수 없다.** 페이지 전체의 구조를 보고 판정해야 한다. «파서가 모르는
+   도형이 많다»만으로 개념 ERD를 가려내는 기준이 약한 이유가 이것이다.

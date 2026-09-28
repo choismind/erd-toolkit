@@ -76,7 +76,7 @@ func TestColumnReferences_끊어진관계는건너뛴다(t *testing.T) {
 }
 
 func TestColumnReferences_테이블에직접연결되면컬럼이름이없다(t *testing.T) {
-	// 스펙: 관계선이 행이 아니라 테이블에 직접 연결된 경우.
+	// 원장: 관계선이 행이 아니라 테이블에 직접 연결된 경우.
 	d := twoTables("PK", "FK1")
 	d.Relationships[0].SourceColumnID = "" // 부모 쪽이 테이블에 붙었다
 	ref := d.ColumnReferences()["r2"]

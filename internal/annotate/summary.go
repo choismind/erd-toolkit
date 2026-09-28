@@ -53,7 +53,7 @@ func SummaryCell(p PagePlan, cells []drawio.RawCell) convert.NewCell {
 		// 처음 만드는 박스에서 일부러 거르는 바로 그 상태를 재사용
 		// 경로가 통과시키면, 존재하지 않는 셀을 부모로 가리키는 박스가
 		// 나가면서 erdtool은 「페이지 N개 요약」이라고 성공을 보고한다.
-		// 사람이 draw.io에서 열면 그 박스가 없다(코드리뷰 [I5]).
+		// 사람이 draw.io에서 열면 그 박스가 없다(코드리뷰).
 		parent := c.Parent
 		if _, alive := idx.ByID[parent]; parent == "" || !alive {
 			parent = summaryParent(cells)
@@ -124,7 +124,7 @@ func newSummaryCell(id string, p PagePlan, parent string, x, y float64) convert.
 		// 속성을 XML에 싣는다. 이게 없으면 이 박스는 «내가 만든 것»이라는
 		// 표가 하나도 없는 그냥 note가 되어, ScanExisting이 다음 실행에서
 		// 이 박스를 옛 요약 박스로 못 찾는다 — 지우고 다시 넣는 대신
-		// 매번 새 박스가 옆에 쌓인다(Task 12의 멱등성 계약이 이걸 잡는다).
+		// 매번 새 박스가 옆에 쌓인다(작업 12의 멱등성 계약이 이걸 잡는다).
 		Attrs: map[string]string{AttrAnnotation: AnnotationSummary},
 	}
 }

@@ -26,7 +26,7 @@ type ColumnRef struct {
 }
 
 // ColumnReferences는 «컬럼 id -> 그 컬럼이 가리키는 대상»을 만든다. 컬럼
-// id는 행(tableRow) 셀 id다(I7 계약).
+// id는 행(tableRow) 셀 id다.
 //
 // 어느 쪽이 자식(외래키를 든 쪽)인지는 **키 셀의 FK 표기로 정한다.** 한쪽만
 // FK로 표시돼 있으면 그쪽이 자식이다. 둘 다이거나 둘 다 아니면 판정하지

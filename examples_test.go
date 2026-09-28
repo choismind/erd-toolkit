@@ -10,7 +10,7 @@
 //	go build -o erdtool.exe ./cmd/erdtool
 //	./erdtool.exe build examples/bookstore.csv
 //	./erdtool.exe generate examples/bookstore.drawio --relations --sql
-//	# examples/README.md의 「무엇을 커밋해 두었나」 표에 없는 파일은 지운다
+//	# examples/README.md의 「산출물 여덟」 표에서 커밋하지 않는 파일은 지운다
 //
 // 되살릴 때는 «릴리스에서 받은 바이너리»가 아니라 **위처럼 이 저장소에서
 // 빌드한 것**을 쓴다. 정의서 머리의 「생성 도구」에 버전이 박히는데, 릴리스

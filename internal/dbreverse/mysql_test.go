@@ -72,7 +72,7 @@ func TestMySQLDialect_ReadsCatalog(t *testing.T) {
 	if orders == nil {
 		t.Fatal("erdtool_orders를 못 찾았다")
 	}
-	// 공백 든 타입이 원문 그대로 와야 한다. Task 1이 이걸 위해 있다.
+	// 공백 든 타입이 원문 그대로 와야 한다. 작업 1이 이걸 위해 있다.
 	var qty *Column
 	for i := range orders.Columns {
 		if orders.Columns[i].Name == "qty" {

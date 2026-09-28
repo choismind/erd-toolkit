@@ -9,7 +9,7 @@ import (
 )
 
 // TestFile_AcceptsDBReverseOutput는 역공학 산출물이 convert의 «페이지 사이
-// 셀 id 충돌» 가드를 통과함을 고정한다. Phase 2a에서 태스크별 리뷰 11번을
+// 셀 id 충돌» 가드를 통과함을 고정한다. Phase 2a에서 작업별 리뷰 11번을
 // 전부 통과한 결함이 바로 이 자리였다 — emitPage가 페이지마다 셀 id를 0부터
 // 다시 매기던 시절, 두 페이지짜리 산출물을 convert.File에 넣으면 하드
 // 에러로 거부됐다.

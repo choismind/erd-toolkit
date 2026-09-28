@@ -11,7 +11,7 @@ const (
 	ShapeClassViolation
 )
 
-// ClassifyShape은 스펙의 "허용 도형 세트" 3분류를 그대로 구현한다:
+// ClassifyShape은 원장의 "허용 도형 세트" 3분류를 그대로 구현한다:
 //   - Parsed: 테이블 계열(table/tableRow/partialRectangle) + 카디널리티 엣지
 //   - Ignored: Note — 구조 데이터 아니지만 경고 없음(어디서나 쓸 수 있는 범용 주석)
 //   - Violation: 그 외 전부(Chen 계열, Hierarchy, Cloud, 자유도형)
@@ -50,7 +50,7 @@ func ClassifyShape(cell RawCell) ShapeClass {
 	return ShapeClassViolation
 }
 
-// ShapeName은 style 문자열에서 도형 이름만 뽑는다(M11). style 문자열 전체를
+// ShapeName은 style 문자열에서 도형 이름만 뽑는다. style 문자열 전체를
 // "도형"이라고 부르며 IR과 검증 리포트에 그대로 흘려보내면, 사용자는
 // "shape=note;whiteSpace=wrap;html=1;rounded=0;..." 같은 한 줄을 읽고 무슨
 // 도형인지 스스로 골라내야 한다.

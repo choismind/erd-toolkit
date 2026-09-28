@@ -17,7 +17,7 @@ import (
 
 // 이 파일은 annotate의 계약 네 가지를 «실물 픽스처»에 건다.
 //
-// annotate 스펙의 "파일 왕복 — 계약 4종"이 요구하는 것이 이것인데 지금까지 없었다. annotate의
+// annotate 원장의 "파일 왕복 — 계약 4종"이 요구하는 것이 이것인데 지금까지 없었다. annotate의
 // 모든 픽스처는 손으로 적은 인라인 문자열이었다 — 평문 XML, 한 페이지,
 // 레이어 없음, 간선 waypoint 없음. 그 모양 하나만 보고 있으면 «소비자 하나,
 // 모양 하나»의 함정에 그대로 빠진다. 지난 페이즈의 Critical이 리뷰 열한 번을
@@ -34,12 +34,12 @@ import (
 // base64 + raw-deflate다(압축을 풀면 mxGraphModel이 나온다. compressed="true"
 // 속성은 draw.io가 늘 적지는 않으므로 그 속성으로 판별하면 이 파일을 놓친다).
 // 페이지 2장에 진단 7건·마크 6개가 나고, 진단 «정체» 비교를 깨는 변이를
-// 잡아낸 것도 이 골든이다. 즉 스펙이 요구한 «실물 픽스처»에 압축된 실제
+// 잡아낸 것도 이 골든이다. 즉 원장이 요구한 «실물 픽스처»에 압축된 실제
 // draw.io 파일이 들어 있다.
 //
 // 그리고 이 테스트는 순수 함수가 아니라 «파이프라인»에 건다 — pipeline.Annotate가
 // 파일을 읽고, 표시하고, 제자리에 쓰고, --clean이 다시 제자리에 쓴다. 그
-// 쓰기 경로(Task 14)는 지금까지 테스트가 하나도 없었다.
+// 쓰기 경로(작업 14)는 지금까지 테스트가 하나도 없었다.
 
 // findingKey는 진단 하나의 «정체»다. 문구는 안 본다 — 문구는 얼마든지
 // 다듬을 수 있고, 여기서 지키려는 것은 "annotate를 돌려도 검증이 보는
@@ -51,7 +51,7 @@ type findingKey struct {
 
 // findingMultiset은 진단을 «집합»으로 만든다. 개수만 세면 진단 하나가
 // 사라지고 다른 하나가 새로 생긴 것을 못 잡는다 — 실제로 그 비교를
-// 쓰고 있었고(Task 16), 그래서 여기서는 정체를 센다. 같은 (규칙, 셀)이
+// 쓰고 있었고(작업 16), 그래서 여기서는 정체를 센다. 같은 (규칙, 셀)이
 // 두 번 나오는 것도 사실이므로 개수까지 함께 본다.
 func findingMultiset(fs []validate.Finding) map[findingKey]int {
 	out := map[findingKey]int{}
@@ -136,7 +136,7 @@ func TestAnnotateGoldenRoundTripContracts(t *testing.T) {
 			if maxPages < r1.Pages {
 				maxPages = r1.Pages
 			}
-			// Task 11의 «여러 페이지에 걸친 마크 누적»이 실제로 돈
+			// 작업 11의 «여러 페이지에 걸친 마크 누적»이 실제로 돈
 			// 골든인지 본다.
 			//
 			// 예전에는 r1.Pages >= 2 && r1.Marked >= 2로 갈음했는데, 그
@@ -179,7 +179,7 @@ func TestAnnotateGoldenRoundTripContracts(t *testing.T) {
 				t.Errorf("표시 뒤 진단의 집합이 달라졌다\n원본: %v\n표시 뒤: %v", want, got)
 			}
 
-			// --clean도 제자리 쓰기다(Task 14). 여기가 그 경로의 유일한 그물이다.
+			// --clean도 제자리 쓰기다(작업 14). 여기가 그 경로의 유일한 그물이다.
 			rc, err := Annotate(work, cfg, true, false)
 			if err != nil {
 				t.Fatalf("--clean: %v", err)
@@ -225,7 +225,7 @@ func TestAnnotateGoldenRoundTripContracts(t *testing.T) {
 	}
 
 	// 골든 목록이 어느 날 한 페이지짜리만 남으면 이 테스트는 초록인 채로
-	// 교차 페이지 누적(Task 11)을 안 덮게 된다. 그 사실을 조용히 넘기지
+	// 교차 페이지 누적(작업 11)을 안 덮게 된다. 그 사실을 조용히 넘기지
 	// 않는다.
 	if maxPages < 2 {
 		t.Errorf("여러 페이지에 요약 박스를 넣은 골든이 하나도 없었다(최대 %d) — 교차 페이지 누적이 안 덮인다", maxPages)
