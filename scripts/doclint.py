@@ -158,7 +158,7 @@ def check(path: Path, style: bool, added: set[int] | None = None,
     # 원장은 «그때 그렇게 판단했다»는 기록이다. 지난 항목의 낱말을 지금
     # 용어로 고쳐 쓰는 것은 기록을 손대는 것이므로 용어 규칙에서 뺀다.
     # 도메인 검사(스타일 토큰·화살표·파일 참조)는 그대로 적용한다.
-    ledger = is_record(path)
+    record = is_record(path)
     out: list[str] = []
     in_fence = False
     for no, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
@@ -177,10 +177,10 @@ def check(path: Path, style: bool, added: set[int] | None = None,
         fresh = (not added_only) or (added is not None and no in added)
 
         for word, fix in BANNED.items():
-            if not ledger and fresh and word in line:
+            if not record and fresh and word in line:
                 out.append(f"{path}:{no}: 금지 용어 「{word}」 → {fix}")
         for word, fix in JARGON.items():
-            if not ledger and fresh and word in line:
+            if not record and fresh and word in line:
                 out.append(f"{path}:{no}: 은어·풀어 쓴 말 「{word}」 → {fix}")
         if added and no in added and ABSOLUTE.search(line):
             out.append(f"{path}:{no}: 단정 표현 — 바로 아래 증거와 한 줄씩 대조할 것")
