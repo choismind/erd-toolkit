@@ -1,0 +1,21 @@
+테이블명,순번,컬럼명,컬럼유형,색인여부,널허용,단일값
+MEMBER,1,MBR_NO,int,PK,False,False
+MEMBER,2,MBR_NM,varchar(50),,False,False
+MEMBER,3,EMAIL,varchar(100),,True,True
+MEMBER,4,JOIN_YMD,date,,False,False
+BOOK,1,BOOK_NO,int,PK,False,False
+BOOK,2,TITLE,varchar(200),,False,False
+BOOK,3,AUTHOR,varchar(100),,True,False
+BOOK,4,PRICE,int,,False,False
+ORD,1,ORD_NO,int,PK,False,False
+ORD,2,MBR_NO,int,FK1,False,False
+ORD,3,ORD_YMD,date,,False,False
+ORD_ITEM,1,ORD_ITEM_NO,int,PK,False,False
+ORD_ITEM,2,ORD_NO,int,FK1,False,False
+ORD_ITEM,3,BOOK_NO,int,FK2,False,False
+ORD_ITEM,4,QTY,int,,False,False
+## 관계
+순번,원천테이블명,원천컬럼명,원천카디널리티,원천색인,연관명,목표카디널리티,목표색인,목표테이블명,목표컬럼명
+1,MEMBER,MBR_NO,ERone,PK,회원주문,ERzeroToMany,FK1,ORD,MBR_NO
+2,ORD,ORD_NO,ERone,PK,주문상세,ERzeroToMany,FK1,ORD_ITEM,ORD_NO
+3,BOOK,BOOK_NO,ERone,PK,도서주문,ERzeroToMany,FK2,ORD_ITEM,BOOK_NO

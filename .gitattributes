@@ -1,0 +1,15 @@
+# 이 저장소는 워크트리에서도 LF를 쓴다.
+#
+# 왜: Windows의 core.autocrlf=true는 checkout 때 LF를 CRLF로 바꿔 놓는다.
+# git 안은 어차피 LF라 이력에는 영향이 없지만, 디스크 위 파일이 CRLF인 동안
+# gofmt -l이 그 파일들을 잡는다 — 실제 코드 문제가 아닌데도 태스크마다
+# 도는 build/vet/gofmt/test 클린 체크가 빨간불이 된다. 변환 단계를 없앤다.
+#
+# 잃는 것: 없다. cmd.exe가 CRLF를 요구하는 .bat/.cmd가 이 저장소엔 없고,
+# scripts/*.sh는 오히려 CRLF면 shebang이 깨진다.
+* text=auto eol=lf
+
+# 바이너리. text=auto가 자동 판별하지만, 잘못 판별되면 파일이 조용히
+# 손상되는 쪽이라 명시해 둔다.
+*.ttf  binary
+*.xlsx binary

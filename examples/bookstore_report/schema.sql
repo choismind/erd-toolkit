@@ -1,0 +1,37 @@
+-- 타깃 DBMS: ANSI (지정 안 함)
+-- 원본: bookstore.drawio
+
+CREATE TABLE "MEMBER" (
+  "MBR_NO" int NOT NULL,
+  "MBR_NM" varchar(50) NOT NULL,
+  "EMAIL" varchar(100) UNIQUE,
+  "JOIN_YMD" date NOT NULL,
+  PRIMARY KEY ("MBR_NO")
+);
+
+CREATE TABLE "BOOK" (
+  "BOOK_NO" int NOT NULL,
+  "TITLE" varchar(200) NOT NULL,
+  "AUTHOR" varchar(100),
+  "PRICE" int NOT NULL,
+  PRIMARY KEY ("BOOK_NO")
+);
+
+CREATE TABLE "ORD" (
+  "ORD_NO" int NOT NULL,
+  "MBR_NO" int NOT NULL,
+  "ORD_YMD" date NOT NULL,
+  PRIMARY KEY ("ORD_NO"),
+  FOREIGN KEY ("MBR_NO") REFERENCES "MEMBER" ("MBR_NO")
+);
+
+CREATE TABLE "ORD_ITEM" (
+  "ORD_ITEM_NO" int NOT NULL,
+  "ORD_NO" int NOT NULL,
+  "BOOK_NO" int NOT NULL,
+  "QTY" int NOT NULL,
+  PRIMARY KEY ("ORD_ITEM_NO"),
+  FOREIGN KEY ("ORD_NO") REFERENCES "ORD" ("ORD_NO"),
+  FOREIGN KEY ("BOOK_NO") REFERENCES "BOOK" ("BOOK_NO")
+);
+

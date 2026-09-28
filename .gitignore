@@ -1,0 +1,25 @@
+/erdtool.exe
+/erdtool
+/dist/
+*.o
+*.exe
+# sandbox는 확인에 쓰는 자리다. 안의 것은 버려도 된다.
+/sandbox/
+/erdtool.connections.yaml
+/erdtool.connections.yml
+
+# generate 가 만드는 <파일명>_report/ 는 산출물이라 커밋하지 않는다.
+# testdata 안에서 한 번 돌리면 그 자리에 생긴다 — 2026-09-09에 실제로 남아 있었다.
+*_report/
+
+# examples/ 의 산출물만 예외다. 저장소를 처음 연 사람이 «돌려 보기 전에»
+# 읽는 자리라 커밋해 두고, examples_test.go 가 낡지 않았는지 지킨다.
+!/examples/bookstore_report/
+
+# make cover 가 만드는 계측 바이너리와 커버리지 파일. 재현 절차가
+# scripts/coverage.sh 하나라 남길 것이 없다.
+/.coverage/
+
+# 파이썬 검사 도구가 남기는 캐시. 한 번 커밋된 적이 있다(2026-09-22에 뺐다).
+__pycache__/
+*.pyc

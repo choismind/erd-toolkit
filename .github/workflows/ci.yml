@@ -1,0 +1,80 @@
+# 저장소가 스스로를 검사한다.
+#
+# 여기 걸린 것은 «사람이 기억해서» 돌리던 것들이다. 기억은 낡는다.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  go:
+    name: Go
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: build
+        run: go build ./...
+
+      - name: vet
+        run: go vet ./...
+
+      # gofmt는 «고칠 파일 이름»을 찍고 종료 코드는 0이다. 그래서 출력이
+      # 있으면 여기서 직접 실패시킨다.
+      - name: gofmt
+        run: |
+          out=$(gofmt -l .)
+          if [ -n "$out" ]; then
+            echo "gofmt가 고칠 파일:"
+            echo "$out"
+            exit 1
+          fi
+
+      # 서버가 있어야 도는 테스트는 ERDTOOL_TEST_*_DSN이 없으면 건너뛴다.
+      # CI에서 건너뛰는 것이 정상이다.
+      - name: test
+        run: go test ./... -count=1
+
+      # CLI 계층까지 포함한 커버리지. 숫자로 막지는 않는다 — 임계값을 두면
+      # 사소한 변경이 걸리고, 그러면 임계값을 낮추는 쪽으로 간다.
+      - name: coverage
+        run: bash scripts/coverage.sh
+
+  docs:
+    name: 문서
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # doclint가 «이번에 새로 쓴 줄»을 알려면 견줄 커밋이 있어야 한다.
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 문서 용어. 지나온 문서의 은어까지 잡으면 빌드가 늘 빨가므로
+      # --added-only로 «이번에 새로 쓴 줄»만 본다.
+      - name: doclint
+        env:
+          DOCLINT_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || 'HEAD~1' }}
+        run: python scripts/doclint.py --changed --added-only
+
+      # 서드파티 고지가 의존성과 맞는지. 어긋나면 고지가 제 구실을 잃는다.
+      - name: 서드파티 고지
+        run: python scripts/gen_notices.py --check

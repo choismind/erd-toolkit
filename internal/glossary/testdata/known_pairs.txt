@@ -1,0 +1,16 @@
+# 논리명 <TAB> 물리명
+# 출처: E:\devol\python\pyenv11\drawio\data\{논리,물리}테이블정의서.csv
+# (레퍼런스 trans_logic2physic.py가 kiwipiepy로 만든 실제 산출물)
+고객	CUST
+고객번호	CUST_NO
+고객명	CUST_NM
+주문	ORDR
+주문번호	ORDR_NO
+주문고객번호	ORDR_CUST_NO
+주문일자	ORDR_YMD
+선적	SHPMNT
+선적번호	SHPMNT_NO
+선적일자	SHPMNT_YMD
+고객2	CUST_2
+주문2	ORDR_2
+선적2	SHPMNT_2

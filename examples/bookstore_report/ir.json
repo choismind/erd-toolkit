@@ -1,0 +1,213 @@
+{
+  "ir_version": "1.0",
+  "source_file": "examples/bookstore.drawio",
+  "source_modified": "2026-09-22 10:08",
+  "diagrams": [
+    {
+      "id": "page-0",
+      "name": "bookstore",
+      "tables": [
+        {
+          "id": "p0_t0",
+          "name": "MEMBER",
+          "columns": [
+            {
+              "id": "p0_t0_r0",
+              "name": "MBR_NO",
+              "type": "int",
+              "nullable": false,
+              "key": "PK",
+              "raw_value": "MBR_NO int NOT NULL"
+            },
+            {
+              "id": "p0_t0_r1",
+              "name": "MBR_NM",
+              "type": "varchar(50)",
+              "nullable": false,
+              "key": "",
+              "raw_value": "MBR_NM varchar(50) NOT NULL"
+            },
+            {
+              "id": "p0_t0_r2",
+              "name": "EMAIL",
+              "type": "varchar(100)",
+              "nullable": true,
+              "unique": true,
+              "key": "",
+              "raw_value": "EMAIL varchar(100) UNIQUE"
+            },
+            {
+              "id": "p0_t0_r3",
+              "name": "JOIN_YMD",
+              "type": "date",
+              "nullable": false,
+              "key": "",
+              "raw_value": "JOIN_YMD date NOT NULL"
+            }
+          ]
+        },
+        {
+          "id": "p0_t1",
+          "name": "BOOK",
+          "columns": [
+            {
+              "id": "p0_t1_r0",
+              "name": "BOOK_NO",
+              "type": "int",
+              "nullable": false,
+              "key": "PK",
+              "raw_value": "BOOK_NO int NOT NULL"
+            },
+            {
+              "id": "p0_t1_r1",
+              "name": "TITLE",
+              "type": "varchar(200)",
+              "nullable": false,
+              "key": "",
+              "raw_value": "TITLE varchar(200) NOT NULL"
+            },
+            {
+              "id": "p0_t1_r2",
+              "name": "AUTHOR",
+              "type": "varchar(100)",
+              "nullable": true,
+              "key": "",
+              "raw_value": "AUTHOR varchar(100)"
+            },
+            {
+              "id": "p0_t1_r3",
+              "name": "PRICE",
+              "type": "int",
+              "nullable": false,
+              "key": "",
+              "raw_value": "PRICE int NOT NULL"
+            }
+          ]
+        },
+        {
+          "id": "p0_t2",
+          "name": "ORD",
+          "columns": [
+            {
+              "id": "p0_t2_r0",
+              "name": "ORD_NO",
+              "type": "int",
+              "nullable": false,
+              "key": "PK",
+              "raw_value": "ORD_NO int NOT NULL"
+            },
+            {
+              "id": "p0_t2_r1",
+              "name": "MBR_NO",
+              "type": "int",
+              "nullable": false,
+              "key": "FK1",
+              "raw_value": "MBR_NO int NOT NULL"
+            },
+            {
+              "id": "p0_t2_r2",
+              "name": "ORD_YMD",
+              "type": "date",
+              "nullable": false,
+              "key": "",
+              "raw_value": "ORD_YMD date NOT NULL"
+            }
+          ]
+        },
+        {
+          "id": "p0_t3",
+          "name": "ORD_ITEM",
+          "columns": [
+            {
+              "id": "p0_t3_r0",
+              "name": "ORD_ITEM_NO",
+              "type": "int",
+              "nullable": false,
+              "key": "PK",
+              "raw_value": "ORD_ITEM_NO int NOT NULL"
+            },
+            {
+              "id": "p0_t3_r1",
+              "name": "ORD_NO",
+              "type": "int",
+              "nullable": false,
+              "key": "FK1",
+              "raw_value": "ORD_NO int NOT NULL"
+            },
+            {
+              "id": "p0_t3_r2",
+              "name": "BOOK_NO",
+              "type": "int",
+              "nullable": false,
+              "key": "FK2",
+              "raw_value": "BOOK_NO int NOT NULL"
+            },
+            {
+              "id": "p0_t3_r3",
+              "name": "QTY",
+              "type": "int",
+              "nullable": false,
+              "key": "",
+              "raw_value": "QTY int NOT NULL"
+            }
+          ]
+        }
+      ],
+      "relationships": [
+        {
+          "id": "p0_e0",
+          "label": "회원주문",
+          "source_table_id": "p0_t0",
+          "source_column_id": "p0_t0_r0",
+          "source_cardinality": "ERone",
+          "source_raw_id": "p0_t0_r0",
+          "source_resolved": true,
+          "source_exists": true,
+          "target_table_id": "p0_t2",
+          "target_column_id": "p0_t2_r1",
+          "target_cardinality": "ERzeroToMany",
+          "target_raw_id": "p0_t2_r1",
+          "target_resolved": true,
+          "target_exists": true,
+          "column_level": true
+        },
+        {
+          "id": "p0_e1",
+          "label": "주문상세",
+          "source_table_id": "p0_t2",
+          "source_column_id": "p0_t2_r0",
+          "source_cardinality": "ERone",
+          "source_raw_id": "p0_t2_r0",
+          "source_resolved": true,
+          "source_exists": true,
+          "target_table_id": "p0_t3",
+          "target_column_id": "p0_t3_r1",
+          "target_cardinality": "ERzeroToMany",
+          "target_raw_id": "p0_t3_r1",
+          "target_resolved": true,
+          "target_exists": true,
+          "column_level": true
+        },
+        {
+          "id": "p0_e2",
+          "label": "도서주문",
+          "source_table_id": "p0_t1",
+          "source_column_id": "p0_t1_r0",
+          "source_cardinality": "ERone",
+          "source_raw_id": "p0_t1_r0",
+          "source_resolved": true,
+          "source_exists": true,
+          "target_table_id": "p0_t3",
+          "target_column_id": "p0_t3_r2",
+          "target_cardinality": "ERzeroToMany",
+          "target_raw_id": "p0_t3_r2",
+          "target_resolved": true,
+          "target_exists": true,
+          "column_level": true
+        }
+      ],
+      "ignored_shapes": null,
+      "shape_violations": null
+    }
+  ]
+}
