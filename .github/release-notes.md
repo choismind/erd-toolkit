@@ -25,10 +25,11 @@ chmod +x erdtool-darwin-arm64
 ./erdtool-darwin-arm64 version
 ```
 
-사용법은 [README](../README.md)와 [사용자설명서](../docs/user-guide.md)에 있다.
+사용법은 [README](https://github.com/choismind/erd-toolkit/blob/main/README.md)와
+[사용자설명서](https://github.com/choismind/erd-toolkit/blob/main/docs/user-guide.md)에 있다.
 그림을 그리거나 산출물을 열려면 [draw.io](https://www.drawio.com/)가 필요하다.
 
-라이선스는 MIT다. 실행 파일에 들어간 오픈소스의 고지는 함께 올린
+라이선스는 MIT다. 실행 파일에 들어간 오픈소스와 글꼴의 고지는 함께 올린
 `THIRD-PARTY-NOTICES.md`에 있다.
 
 **보증하지 않고, 책임지지 않는다.** 이 도구는 있는 그대로 제공되며, 써서

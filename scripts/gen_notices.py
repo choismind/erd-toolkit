@@ -37,6 +37,17 @@ NAMES = (
 )
 
 
+# Go 모듈이 아니면서 실행 파일에 들어가는 것(`//go:embed`). `go list`로는
+# 안 보이므로 여기 적는다 — 빠뜨리면 그것의 고지가 조용히 빈다(2026-09-28에
+# 나눔고딕 고지가 빠져 있던 것을 공개 전 점검이 잡았다). `git grep go:embed`로
+# 늘어난 것이 없는지 본다.
+EMBEDDED = (
+    # (이름, 쓰는 곳, 라이선스, 라이선스 전문 경로)
+    ("나눔고딕 `NanumGothic.ttf`", "PDF 정의서의 한글 글꼴", "OFL-1.1",
+     "internal/report/fonts/OFL.txt"),
+)
+
+
 # 릴리스가 내는 플랫폼. scripts/build-release.sh와 같아야 한다.
 PLATFORMS = (
     ("windows", "amd64"),
@@ -125,6 +136,12 @@ def build():
         else:
             b.append("| `%s` | %s | %s |" % (path, ver, spdx(text)))
     b.append("")
+    b.append("함께 들어가는 글꼴:\n")
+    b.append("| 글꼴 | 쓰는 곳 | 라이선스 |")
+    b.append("|---|---|---|")
+    for name, use, lic, _ in EMBEDDED:
+        b.append("| %s | %s | %s |" % (name, use, lic))
+    b.append("")
     b.append("## 전문\n")
     for path, (ver, d) in mods:
         name, text = license_text(d)
@@ -134,6 +151,11 @@ def build():
             continue
         b.append("```")
         b.append(text)
+        b.append("```\n")
+    for name, _, lic, path in EMBEDDED:
+        b.append("### %s (%s)\n" % (name, lic))
+        b.append("```")
+        b.append(io.open(path, encoding="utf-8").read().strip())
         b.append("```\n")
     return "\n".join(b) + "\n", missing, len(mods)
 
