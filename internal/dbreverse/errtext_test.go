@@ -44,7 +44,7 @@ func TestDecodeServerText_LeavesUTF8Untouched(t *testing.T) {
 	for _, s := range []string{
 		"",
 		`connection refused`,
-		`접속 실패 (postgres://chois:***@localhost/mydb)`,
+		`접속 실패 (postgres://user:***@localhost/mydb)`,
 		"�", // 치환 문자 자체도 유효한 UTF-8이다
 	} {
 		if got := DecodeServerText(s); got != s {

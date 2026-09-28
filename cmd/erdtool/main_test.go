@@ -418,11 +418,11 @@ func TestCheckConvertFlags(t *testing.T) {
 
 func TestFormatReverseResult(t *testing.T) {
 	res := pipeline.ReverseResult{
-		Target: "postgres://chois:***@localhost/mydb", OutputPath: "mydb.drawio",
+		Target: "postgres://user:***@localhost/mydb", OutputPath: "mydb.drawio",
 		Pages: 2, Tables: 14, Relations: 18,
 	}
 	got := formatReverseResult(res)
-	want := "[REVERSED] postgres://chois:***@localhost/mydb -> mydb.drawio (2개 페이지, 14개 테이블, 관계 18건)\n"
+	want := "[REVERSED] postgres://user:***@localhost/mydb -> mydb.drawio (2개 페이지, 14개 테이블, 관계 18건)\n"
 	if got != want {
 		t.Errorf("결과 줄 = %q; want %q", got, want)
 	}

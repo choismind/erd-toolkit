@@ -20,15 +20,15 @@ func TestLoadConnections(t *testing.T) {
 	p := writeConns(t, `
 connections:
   PostgreSQL:
-    dsn: postgres://chois@localhost/mydb
+    dsn: postgres://user@localhost/mydb
   shop:
-    dsn: mysql://chois:pw@localhost/shop
+    dsn: mysql://user:pw@localhost/shop
 `)
 	c, err := LoadConnections(p)
 	if err != nil {
 		t.Fatalf("LoadConnections: %v", err)
 	}
-	if c.Connections["PostgreSQL"].DSN != "postgres://chois@localhost/mydb" {
+	if c.Connections["PostgreSQL"].DSN != "postgres://user@localhost/mydb" {
 		t.Errorf("PostgreSQL = %+v", c.Connections["PostgreSQL"])
 	}
 	if len(c.Connections) != 2 {
@@ -40,7 +40,7 @@ func TestResolve_SchemeWins(t *testing.T) {
 	c := Connections{Connections: map[string]ConnectionEntry{
 		"postgres://x": {DSN: "이건 쓰이면 안 된다"},
 	}}
-	got, err := Resolve("postgres://chois@localhost/mydb", c)
+	got, err := Resolve("postgres://user@localhost/mydb", c)
 	if err != nil {
 		t.Fatalf("Resolve: %v", err)
 	}
@@ -54,7 +54,7 @@ func TestResolve_SchemeWins(t *testing.T) {
 
 func TestResolve_SectionName(t *testing.T) {
 	c := Connections{Connections: map[string]ConnectionEntry{
-		"shop": {DSN: "mysql://chois:pw@localhost:3306/shopdb"},
+		"shop": {DSN: "mysql://user:pw@localhost:3306/shopdb"},
 	}}
 	got, err := Resolve("shop", c)
 	if err != nil {
@@ -122,9 +122,9 @@ func TestResolve_ErrorNeverLeaksPassword(t *testing.T) {
 // DBMS가 같은 모양으로 보여야 하는데 그 드라이버만 URL을 안 받는다.
 func TestMySQLNativeDSN(t *testing.T) {
 	cases := []struct{ in, want string }{
-		{"mysql://chois:pw@localhost:3306/shop", "chois:pw@tcp(localhost:3306)/shop"},
-		{"mysql://chois@localhost/shop", "chois@tcp(localhost:3306)/shop"},
-		{"mysql://chois:pw@localhost/shop?parseTime=true", "chois:pw@tcp(localhost:3306)/shop?parseTime=true"},
+		{"mysql://user:pw@localhost:3306/shop", "user:pw@tcp(localhost:3306)/shop"},
+		{"mysql://user@localhost/shop", "user@tcp(localhost:3306)/shop"},
+		{"mysql://user:pw@localhost/shop?parseTime=true", "user:pw@tcp(localhost:3306)/shop?parseTime=true"},
 	}
 	for _, c := range cases {
 		got, err := mysqlNativeDSN(c.in)
@@ -136,7 +136,7 @@ func TestMySQLNativeDSN(t *testing.T) {
 			t.Errorf("mysqlNativeDSN(%q) = %q; want %q", c.in, got, c.want)
 		}
 	}
-	if _, err := mysqlNativeDSN("mysql://chois@localhost"); err == nil {
+	if _, err := mysqlNativeDSN("mysql://user@localhost"); err == nil {
 		t.Error("DB 이름이 없으면 거부해야 한다 — 어느 DB를 그릴지 추측할 수 없다")
 	}
 }
@@ -146,7 +146,7 @@ func TestMySQLNativeDSN(t *testing.T) {
 // 보고했다. 역공학은 «이미 있는» DB를 읽는 일이므로 없는 파일은 거부한다.
 func TestResolve_NonexistentFileIsRefused(t *testing.T) {
 	c := Connections{Connections: map[string]ConnectionEntry{
-		"PostgreSQL": {DSN: "postgres://chois@localhost/mydb"},
+		"PostgreSQL": {DSN: "postgres://user@localhost/mydb"},
 	}}
 	_, err := Resolve("PostgresQL", c) // 대소문자를 틀린 오타
 	if err == nil {
@@ -177,7 +177,7 @@ func TestMySQLNativeDSN_PercentDecodesUserinfo(t *testing.T) {
 		{"mysql://u:p%3Aw@localhost:3306/db", "u:p:w@tcp(localhost:3306)/db"},
 		{"mysql://us%65r@localhost:3306/db", "user@tcp(localhost:3306)/db"},
 		// 이스케이프가 없으면 예전과 한 글자도 다르지 않아야 한다.
-		{"mysql://chois:pw@localhost:3306/shop", "chois:pw@tcp(localhost:3306)/shop"},
+		{"mysql://user:pw@localhost:3306/shop", "user:pw@tcp(localhost:3306)/shop"},
 	}
 	for _, c := range cases {
 		got, err := mysqlNativeDSN(c.in)

@@ -4,9 +4,9 @@ import "testing"
 
 func TestMaskDSN(t *testing.T) {
 	cases := []struct{ in, want string }{
-		{"postgres://chois:s3cret@localhost/mydb", "postgres://chois:***@localhost/mydb"},
-		{"postgres://chois@localhost/mydb", "postgres://chois@localhost/mydb"},
-		{"mysql://chois:p@ss@localhost:3306/shop", "mysql://chois:***@localhost:3306/shop"},
+		{"postgres://user:s3cret@localhost/mydb", "postgres://user:***@localhost/mydb"},
+		{"postgres://user@localhost/mydb", "postgres://user@localhost/mydb"},
+		{"mysql://user:p@ss@localhost:3306/shop", "mysql://user:***@localhost:3306/shop"},
 		{"./app.db", "./app.db"},
 		{"", ""},
 	}
